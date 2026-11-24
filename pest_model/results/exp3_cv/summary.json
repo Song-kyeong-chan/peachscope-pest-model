@@ -1,0 +1,43 @@
+{
+  "n": 4093,
+  "oof_acc": 0.9201,
+  "oof_macro_f1": 0.7748,
+  "oof_f1_per_class": {
+    "healthy": 0.9848,
+    "shot_hole": 0.9027,
+    "scab": 0.56,
+    "brown_rot": 0.7932,
+    "insect_damage": 0.8014,
+    "others": 0.6066
+  },
+  "n_suspects": 189,
+  "thr": 0.7,
+  "suspects_by_pair": {
+    "others->brown_rot": 36,
+    "brown_rot->healthy": 20,
+    "brown_rot->insect_damage": 18,
+    "insect_damage->brown_rot": 17,
+    "shot_hole->insect_damage": 14,
+    "shot_hole->scab": 13,
+    "healthy->brown_rot": 9,
+    "shot_hole->healthy": 9,
+    "scab->shot_hole": 9,
+    "scab->brown_rot": 7,
+    "brown_rot->others": 6,
+    "others->insect_damage": 6,
+    "insect_damage->shot_hole": 5,
+    "scab->insect_damage": 4,
+    "shot_hole->brown_rot": 4,
+    "insect_damage->healthy": 3,
+    "healthy->shot_hole": 2,
+    "brown_rot->shot_hole": 2,
+    "others->shot_hole": 2,
+    "brown_rot->scab": 1,
+    "others->scab": 1,
+    "others->healthy": 1
+  },
+  "suspects_by_source": {
+    "zx": 35,
+    "rt": 154
+  }
+}

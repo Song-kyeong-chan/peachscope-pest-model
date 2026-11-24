@@ -1,0 +1,10 @@
+{
+  "tiny16": {
+    "test_acc": 0.6566,
+    "test_macro_f1": 0.6483
+  },
+  "hsv_hist": {
+    "test_acc": 0.67,
+    "test_macro_f1": 0.6691
+  }
+}

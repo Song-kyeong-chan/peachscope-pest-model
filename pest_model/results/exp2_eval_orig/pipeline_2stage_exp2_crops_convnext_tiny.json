@@ -1,0 +1,57 @@
+{
+  "system": "2stage",
+  "name": "2stage_exp2_crops_convnext_tiny",
+  "gt": "/Users/song-gyeongchan/peachscope-data/islamia_yolo_disease/test",
+  "yolo": "/Users/song-gyeongchan/orca/workspaces/planning/작물표현형-이미지분석-기획안/pest_model/results/exp2_yolo/yolo11n_fruit/weights/best.pt",
+  "arch": "convnext_tiny",
+  "weights": "/Users/song-gyeongchan/orca/workspaces/planning/작물표현형-이미지분석-기획안/pest_model/results/exp2_crops/convnext_tiny.pt",
+  "conf": 0.25,
+  "n_images": 223,
+  "n_gt_fruits": 316,
+  "n_pred_boxes": 403,
+  "det_recall": 0.7627,
+  "det_precision": 0.598,
+  "matched_cls_macro_f1": 0.8962,
+  "matched_cls_acc": 0.9087,
+  "matched_confusion": [
+    [
+      68,
+      0,
+      0
+    ],
+    [
+      2,
+      113,
+      7
+    ],
+    [
+      0,
+      13,
+      38
+    ]
+  ],
+  "e2e": {
+    "healthy": {
+      "precision": 0.5862,
+      "recall": 0.9444,
+      "f1": 0.7234
+    },
+    "shot_hole": {
+      "precision": 0.5,
+      "recall": 0.6457,
+      "f1": 0.5636
+    },
+    "brown_rot": {
+      "precision": 0.623,
+      "recall": 0.5507,
+      "f1": 0.5846
+    }
+  },
+  "image_level_f1": {
+    "healthy": 0.9593,
+    "shot_hole": 0.8548,
+    "brown_rot": 0.75
+  },
+  "e2e_macro_f1": 0.6239,
+  "image_level_macro_f1": 0.8547
+}

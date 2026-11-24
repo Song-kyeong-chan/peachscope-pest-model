@@ -1,0 +1,118 @@
+== convnext_tiny fold 1/5: train 603 val 76 eval 170
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+  [convnext_tiny] lr 5e-05
+  [convnext_tiny] ep01 loss 0.705 val macroF1 0.700
+  [convnext_tiny] ep02 loss 0.280 val macroF1 0.904
+  [convnext_tiny] ep03 loss 0.077 val macroF1 0.863
+  [convnext_tiny] ep04 loss 0.016 val macroF1 0.897
+  [convnext_tiny] ep05 loss 0.007 val macroF1 0.887
+  [convnext_tiny] ep06 loss 0.002 val macroF1 0.897
+  [convnext_tiny] ep07 loss 0.001 val macroF1 0.897
+  [convnext_tiny] ep08 loss 0.001 val macroF1 0.897
+  [convnext_tiny] ep09 loss 0.001 val macroF1 0.897
+  [convnext_tiny] ep10 loss 0.001 val macroF1 0.897
+              precision    recall  f1-score   support
+
+     healthy      0.969     0.969     0.969        64
+   shot_hole      0.977     0.887     0.930        97
+   brown_rot      0.389     0.778     0.519         9
+
+    accuracy                          0.912       170
+   macro avg      0.778     0.878     0.806       170
+weighted avg      0.943     0.912     0.923       170
+
+== convnext_tiny fold 1 macroF1 0.806
+== convnext_tiny fold 2/5: train 603 val 76 eval 170
+  [convnext_tiny] lr 5e-05
+  [convnext_tiny] ep01 loss 0.859 val macroF1 0.665
+  [convnext_tiny] ep02 loss 0.312 val macroF1 0.829
+  [convnext_tiny] ep03 loss 0.158 val macroF1 0.871
+  [convnext_tiny] ep04 loss 0.083 val macroF1 0.758
+  [convnext_tiny] ep05 loss 0.067 val macroF1 0.885
+  [convnext_tiny] ep06 loss 0.025 val macroF1 0.885
+  [convnext_tiny] ep07 loss 0.007 val macroF1 0.923
+  [convnext_tiny] ep08 loss 0.003 val macroF1 0.923
+  [convnext_tiny] ep09 loss 0.003 val macroF1 0.923
+  [convnext_tiny] ep10 loss 0.002 val macroF1 0.923
+              precision    recall  f1-score   support
+
+     healthy      0.954     0.969     0.961        64
+   shot_hole      0.969     0.979     0.974        97
+   brown_rot      0.714     0.556     0.625         9
+
+    accuracy                          0.953       170
+   macro avg      0.879     0.835     0.854       170
+weighted avg      0.950     0.953     0.951       170
+
+== convnext_tiny fold 2 macroF1 0.854
+== convnext_tiny fold 3/5: train 603 val 76 eval 170
+  [convnext_tiny] lr 5e-05
+  [convnext_tiny] ep01 loss 0.932 val macroF1 0.764
+  [convnext_tiny] ep02 loss 0.316 val macroF1 0.717
+  [convnext_tiny] ep03 loss 0.150 val macroF1 0.787
+  [convnext_tiny] ep04 loss 0.056 val macroF1 0.775
+  [convnext_tiny] ep05 loss 0.024 val macroF1 0.852
+  [convnext_tiny] ep06 loss 0.008 val macroF1 0.852
+  [convnext_tiny] ep07 loss 0.003 val macroF1 0.852
+  [convnext_tiny] ep08 loss 0.002 val macroF1 0.852
+  [convnext_tiny] ep09 loss 0.002 val macroF1 0.852
+  [convnext_tiny] ep10 loss 0.002 val macroF1 0.852
+              precision    recall  f1-score   support
+
+     healthy      0.969     1.000     0.984        63
+   shot_hole      0.970     0.980     0.975        98
+   brown_rot      0.833     0.556     0.667         9
+
+    accuracy                          0.965       170
+   macro avg      0.924     0.845     0.875       170
+weighted avg      0.962     0.965     0.962       170
+
+== convnext_tiny fold 3 macroF1 0.875
+== convnext_tiny fold 4/5: train 603 val 76 eval 170
+  [convnext_tiny] lr 5e-05
+  [convnext_tiny] ep01 loss 0.833 val macroF1 0.583
+  [convnext_tiny] ep02 loss 0.327 val macroF1 0.849
+  [convnext_tiny] ep03 loss 0.137 val macroF1 0.866
+  [convnext_tiny] ep04 loss 0.035 val macroF1 0.775
+  [convnext_tiny] ep05 loss 0.009 val macroF1 0.805
+  [convnext_tiny] ep06 loss 0.003 val macroF1 0.897
+  [convnext_tiny] ep07 loss 0.001 val macroF1 0.832
+  [convnext_tiny] ep08 loss 0.001 val macroF1 0.832
+  [convnext_tiny] ep09 loss 0.001 val macroF1 0.832
+  [convnext_tiny] ep10 loss 0.001 val macroF1 0.832
+              precision    recall  f1-score   support
+
+     healthy      0.955     0.984     0.969        64
+   shot_hole      0.979     0.959     0.969        97
+   brown_rot      0.667     0.667     0.667         9
+
+    accuracy                          0.953       170
+   macro avg      0.867     0.870     0.868       170
+weighted avg      0.953     0.953     0.953       170
+
+== convnext_tiny fold 4 macroF1 0.868
+== convnext_tiny fold 5/5: train 604 val 76 eval 169
+  [convnext_tiny] lr 5e-05
+  [convnext_tiny] ep01 loss 0.734 val macroF1 0.610
+  [convnext_tiny] ep02 loss 0.339 val macroF1 0.929
+  [convnext_tiny] ep03 loss 0.081 val macroF1 0.920
+  [convnext_tiny] ep04 loss 0.018 val macroF1 0.929
+  [convnext_tiny] ep05 loss 0.006 val macroF1 0.949
+  [convnext_tiny] ep06 loss 0.002 val macroF1 0.949
+  [convnext_tiny] ep07 loss 0.001 val macroF1 0.949
+  [convnext_tiny] ep08 loss 0.001 val macroF1 0.929
+  [convnext_tiny] ep09 loss 0.001 val macroF1 0.929
+  [convnext_tiny] ep10 loss 0.001 val macroF1 0.929
+              precision    recall  f1-score   support
+
+     healthy      0.984     1.000     0.992        63
+   shot_hole      0.960     0.979     0.969        97
+   brown_rot      0.833     0.556     0.667         9
+
+    accuracy                          0.964       169
+   macro avg      0.926     0.845     0.876       169
+weighted avg      0.962     0.964     0.962       169
+
+== convnext_tiny fold 5 macroF1 0.876
+== convnext_tiny CV macroF1 0.856 ± 0.029
+exit 0

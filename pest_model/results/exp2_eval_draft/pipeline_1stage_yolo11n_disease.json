@@ -1,0 +1,57 @@
+{
+  "system": "1stage",
+  "name": "1stage_yolo11n_disease",
+  "gt": "/Users/song-gyeongchan/peachscope-data/relabel_draft/test",
+  "yolo": "/Users/song-gyeongchan/orca/workspaces/planning/작물표현형-이미지분석-기획안/pest_model/results/exp2_yolo/yolo11n_disease/weights/best.pt",
+  "arch": null,
+  "weights": null,
+  "conf": 0.25,
+  "n_images": 223,
+  "n_gt_fruits": 152,
+  "n_pred_boxes": 340,
+  "det_recall": 0.7303,
+  "det_precision": 0.5941,
+  "matched_cls_macro_f1": 0.6914,
+  "matched_cls_acc": 0.8559,
+  "matched_confusion": [
+    [
+      72,
+      3,
+      1
+    ],
+    [
+      1,
+      4,
+      10
+    ],
+    [
+      0,
+      1,
+      19
+    ]
+  ],
+  "e2e": {
+    "healthy": {
+      "precision": 0.766,
+      "recall": 0.7129,
+      "f1": 0.7385
+    },
+    "shot_hole": {
+      "precision": 0.0367,
+      "recall": 0.1739,
+      "f1": 0.0606
+    },
+    "brown_rot": {
+      "precision": 0.413,
+      "recall": 0.6786,
+      "f1": 0.5135
+    }
+  },
+  "image_level_f1": {
+    "healthy": 0.9106,
+    "shot_hole": 0.1186,
+    "brown_rot": 0.5479
+  },
+  "e2e_macro_f1": 0.4375,
+  "image_level_macro_f1": 0.5257
+}

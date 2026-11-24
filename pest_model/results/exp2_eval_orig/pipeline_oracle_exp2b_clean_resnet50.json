@@ -1,0 +1,57 @@
+{
+  "system": "oracle",
+  "name": "oracle_exp2b_clean_resnet50",
+  "gt": "/Users/song-gyeongchan/peachscope-data/islamia_yolo_disease/test",
+  "yolo": null,
+  "arch": "resnet50",
+  "weights": "/Users/song-gyeongchan/orca/workspaces/planning/작물표현형-이미지분석-기획안/pest_model/results/exp2b_clean/resnet50.pt",
+  "conf": 0.25,
+  "n_images": 223,
+  "n_gt_fruits": 316,
+  "n_pred_boxes": 316,
+  "det_recall": 1.0,
+  "det_precision": 1.0,
+  "matched_cls_macro_f1": 0.456,
+  "matched_cls_acc": 0.4494,
+  "matched_confusion": [
+    [
+      72,
+      0,
+      0
+    ],
+    [
+      34,
+      12,
+      129
+    ],
+    [
+      4,
+      7,
+      58
+    ]
+  ],
+  "e2e": {
+    "healthy": {
+      "precision": 0.6545,
+      "recall": 1.0,
+      "f1": 0.7912
+    },
+    "shot_hole": {
+      "precision": 0.6316,
+      "recall": 0.0686,
+      "f1": 0.1237
+    },
+    "brown_rot": {
+      "precision": 0.3102,
+      "recall": 0.8406,
+      "f1": 0.4531
+    }
+  },
+  "image_level_f1": {
+    "healthy": 0.8027,
+    "shot_hole": 0.1791,
+    "brown_rot": 0.4746
+  },
+  "e2e_macro_f1": 0.456,
+  "image_level_macro_f1": 0.4855
+}

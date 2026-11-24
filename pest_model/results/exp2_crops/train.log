@@ -1,0 +1,45 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+device mps; train 3658 val 289 test 297
+  [resnet50] lr 0.0003
+  [resnet50] ep01 loss 0.574 val macroF1 0.818
+  [resnet50] ep02 loss 0.171 val macroF1 0.888
+  [resnet50] ep03 loss 0.081 val macroF1 0.853
+  [resnet50] ep04 loss 0.040 val macroF1 0.885
+  [resnet50] ep05 loss 0.021 val macroF1 0.884
+  [resnet50] ep06 loss 0.018 val macroF1 0.881
+  [resnet50] ep07 loss 0.015 val macroF1 0.885
+  [resnet50] ep08 loss 0.009 val macroF1 0.877
+  [resnet50] ep09 loss 0.010 val macroF1 0.892
+  [resnet50] ep10 loss 0.007 val macroF1 0.889
+              precision    recall  f1-score   support
+
+     healthy      0.986     0.986     0.986        72
+   shot_hole      0.867     0.923     0.894       156
+   brown_rot      0.814     0.696     0.750        69
+
+    accuracy                          0.886       297
+   macro avg      0.889     0.868     0.877       297
+weighted avg      0.884     0.886     0.883       297
+
+  [convnext_tiny] lr 5e-05
+  [convnext_tiny] ep01 loss 0.267 val macroF1 0.894
+  [convnext_tiny] ep02 loss 0.047 val macroF1 0.872
+  [convnext_tiny] ep03 loss 0.009 val macroF1 0.940
+  [convnext_tiny] ep04 loss 0.000 val macroF1 0.942
+  [convnext_tiny] ep05 loss 0.000 val macroF1 0.942
+  [convnext_tiny] ep06 loss 0.000 val macroF1 0.942
+  [convnext_tiny] ep07 loss 0.000 val macroF1 0.942
+  [convnext_tiny] ep08 loss 0.000 val macroF1 0.942
+  [convnext_tiny] ep09 loss 0.000 val macroF1 0.942
+  [convnext_tiny] ep10 loss 0.000 val macroF1 0.942
+              precision    recall  f1-score   support
+
+     healthy      0.986     0.986     0.986        72
+   shot_hole      0.914     0.955     0.934       156
+   brown_rot      0.903     0.812     0.855        69
+
+    accuracy                          0.929       297
+   macro avg      0.934     0.918     0.925       297
+weighted avg      0.929     0.929     0.928       297
+
+saved pest_model/results/exp2_crops/results.json

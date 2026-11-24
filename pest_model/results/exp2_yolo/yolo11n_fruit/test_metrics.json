@@ -1,0 +1,12 @@
+{
+  "model": "yolo11n.pt",
+  "data": "/Users/song-gyeongchan/peachscope-data/islamia_yolo_fruit/data.yaml",
+  "epochs": 50,
+  "test_mAP50": 0.7621,
+  "test_mAP50_95": 0.4715,
+  "test_precision": 0.7272,
+  "test_recall": 0.6835,
+  "per_class_mAP50": {
+    "peach": 0.7621
+  }
+}

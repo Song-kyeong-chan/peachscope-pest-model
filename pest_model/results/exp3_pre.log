@@ -1,0 +1,25 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+device mps; train 3360 val 733 test 91
+  [convnext_tiny] lr 5e-05
+  [convnext_tiny] ep01 loss 1.052 val macroF1 0.612
+  [convnext_tiny] ep02 loss 0.576 val macroF1 0.683
+  [convnext_tiny] ep03 loss 0.335 val macroF1 0.665
+  [convnext_tiny] ep04 loss 0.180 val macroF1 0.697
+  [convnext_tiny] ep05 loss 0.067 val macroF1 0.703
+  [convnext_tiny] ep06 loss 0.026 val macroF1 0.719
+  [convnext_tiny] ep07 loss 0.011 val macroF1 0.722
+  [convnext_tiny] ep08 loss 0.009 val macroF1 0.722
+               precision    recall  f1-score   support
+
+      healthy      0.000     0.000     0.000         0
+    shot_hole      0.385     1.000     0.556         5
+         scab      0.833     0.417     0.556        12
+    brown_rot      0.641     0.806     0.714        31
+insect_damage      0.417     0.625     0.500         8
+       others      0.867     0.371     0.520        35
+
+     accuracy                          0.582        91
+    macro avg      0.524     0.537     0.474        91
+ weighted avg      0.719     0.582     0.591        91
+
+saved results/exp3_pre/results.json

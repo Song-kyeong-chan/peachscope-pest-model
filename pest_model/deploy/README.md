@@ -1,0 +1,118 @@
+# 병해충 모델 서버 연동 패키지 (`peach_pest`)
+
+봉지를 벗긴 미홍 과실 사진을 받아 과실마다 병해충을 판정하고, 대응방안 JSON(`pest_model/knowledge/peach_pest_guide.json`)의 항목과 대응 등급을 붙여 돌려준다. 서버 `quality/base.py`의 `QualityModel`과 같은 Protocol 방식이다.
+
+- 모델 버전: `pest-exp4-convnext-2026-11-23` (실험 4, 팀 검수 전 임시 라벨로 학습)
+- 대응방안 JSON: v0.4.0
+
+## 1. 파일
+
+| 파일 | 내용 | 받는 곳 |
+|---|---|---|
+| `peach_pest/` | 추론 코드 (base, model, guide) | 이 저장소 |
+| `../knowledge/peach_pest_guide.json` | 증상·대응·출하·대응 등급·질문 규칙 | 이 저장소 |
+| `../weights/pest_convnext_exp4.pt` | ConvNeXt-Tiny 분류기, 약 106MB | **드라이브** (Git 제외) |
+| `../weights/fruit_yolo11n.pt` | 과실 탐지기, 약 5MB. 서버가 과실 박스를 직접 주면 없어도 됨 | **드라이브** (Git 제외) |
+
+## 2. 설치와 확인
+
+```bash
+pip install -r pest_model/deploy/requirements.txt
+cd pest_model/deploy
+python -m peach_pest 사진.jpg          # 결과 JSON 출력
+python -m pytest -q tests              # 가중치가 있으면 6개 통과
+```
+
+## 3. 서버에 붙이기 (예시, `server/api/app/main.py`)
+
+```python
+from peach_pest import ConvNeXtPestModel, InvalidImageError as PestImageError
+
+P = Path("/models")  # 가중치와 JSON을 둔 곳
+pest_model = ConvNeXtPestModel(P / "pest_convnext_exp4.pt", P / "peach_pest_guide.json",
+                               detector=P / "fruit_yolo11n.pt")   # 공통 탐지기 박스를 쓰면 detector 생략
+
+@app.post("/analyze")
+async def analyze(...):
+    data = await image.read()
+    q = quality_model.predict(data)
+    pest = pest_model.predict(data, boxes=None)   # 공통 탐지기 박스가 있으면 boxes=[(x1,y1,x2,y2), ...]
+    ...
+    return AnalyzeOut(..., pest=pest.to_dict())
+```
+
+- 모델은 서버를 시작할 때 한 번만 불러온다(불러오기 약 2초).
+- CPU에서 과실 하나에 약 0.27초가 걸린다.
+- `boxes`는 **원본 사진의 픽셀 좌표**(EXIF 회전을 반영한 뒤 기준)다. 품질 팀과 같은 탐지기 박스를 쓰려면 이 형식으로 넘긴다.
+
+## 4. 결과 형식
+
+```json
+{
+  "fruits": [
+    {"box": [182.0, 459.8, 285.5, 637.0], "label": "brown_rot", "confidence": 0.99,
+     "probs": {"healthy": 0.0, "spot": 0.003, "brown_rot": 0.993, "anthracnose": 0.0, "insect_damage": 0.004, "others": 0.0},
+     "uncertain": false, "guide_id": "brown_rot", "guide_type": "entry", "tier": "urgent",
+     "questions": [], "box_source": "detector"}
+  ],
+  "summary": "brown_rot", "summary_guide_id": "brown_rot", "summary_tier": "urgent",
+  "model_version": "pest-exp4-convnext-2026-11-23",
+  "status": "ok", "message": "", "skipped_boxes": 0
+}
+```
+
+과실을 찾지 못하면 판정하지 않는다.
+
+```json
+{"fruits": [], "summary": "no_fruit", "summary_guide_id": "", "summary_tier": "none",
+ "status": "no_fruit", "message": "사진에서 과실을 찾지 못했습니다. 봉지를 벗긴 과실 하나가 화면을 크게 채우도록 밝은 곳에서 다시 찍어 주세요.",
+ "skipped_boxes": 1, "model_version": "pest-exp4-convnext-2026-11-23"}
+```
+
+| 필드 | 뜻 | 앱에서 쓰는 법 |
+|---|---|---|
+| `label` | 모델 클래스: `healthy`, `spot`(반점병: 세균구멍병·검은별무늬병), `brown_rot`, `anthracnose`, `insect_damage`, `others`(그 밖의 부패) | 내부 값 |
+| `guide_id` + `guide_type` | `entry`면 JSON `entries`, `group`이면 `display_groups`(`rot` 부패병, `spot` 반점병)의 항목 | 결과 화면 문구, 대응, 출하 판단 |
+| `tier` | `urgent`(지금 바로) · `soon`(이번 주 안에) · `next_season`(올해는 선별, 내년 예방) · `none` | 색과 순서. 문구는 JSON `common.response_tiers` |
+| `questions` | 물어볼 질문 규칙 id (`spot_split`, `spot_vs_insect`) | JSON `disambiguation`에서 질문과 답별 결과를 읽어 화면에 띄움 |
+| `uncertain` | 확신도가 0.5 미만 | `unknown` 항목("판별 불가, 다시 찍기 안내")을 보여 줌 |
+| `summary*` | 사진 전체에서 가장 급한 병해 | 첫 화면 한 줄 |
+| `status`, `message` | `ok` 또는 `no_fruit`(과실을 찾지 못함) | `no_fruit`면 병해 결과 대신 `message`(다시 찍기 안내)를 보여 줌 |
+| `skipped_boxes` | 너무 작거나 단색이라 버린 박스 수 | 로그용 |
+
+## 5. 전처리 (학습과 반드시 같아야 함, 코드에 들어 있음)
+
+1. EXIF 회전 반영, RGB
+2. 과실 박스를 가로·세로 10% 넓혀 자르기
+3. 짧은 변 288px로 리사이즈한 뒤 가운데 288×288
+4. ImageNet 정규화 (mean 0.485/0.456/0.406, std 0.229/0.224/0.225)
+
+앱 업로드는 긴 변 1280px 이상, JPEG 품질 85 이상, 필터 없음으로 맞춘다. 과실 하나가 300px 이상 찍히게 안내한다.
+
+## 6. 과실이 없는 사진 처리
+
+| 장치 | 기준 | 근거 |
+|---|---|---|
+| 사진 전체 판정 안 함 | 과실 박스가 하나도 없으면 `no_fruit` | 처음에는 탐지 실패 때 사진 전체를 판정해서, 초록 단색 이미지가 충해과 96%로 나왔다 |
+| 박스 크기 | 짧은 변이 사진 짧은 변의 10% 이상이면서 64px 이상 | 실제 과실 박스는 하위 1%도 14.7% |
+| 단색 크롭 제외 | 128×128 흑백 밝기 표준편차 6 미만이면 버림 | 탐지기가 갈색 단색 이미지에 확신도 0.74로 박스를 냈다. 실제 과실 크롭 4,134개의 최솟값은 9.2 |
+| 탐지 확신도 | 0.25 유지 | 0.4로 올리면 실제 사진 60장 중 과실 못 찾음이 1장에서 5장으로 늘고, 단색 사진은 막지 못함 |
+
+**남은 위험**: 잎, 땅, 다른 과일처럼 무늬가 있는 사진은 탐지기가 과실로 잡으면 그대로 판정된다. 품질 팀 탐지기 박스를 쓰거나, 미홍 사진으로 탐지기를 확인·보강해야 한다.
+
+## 7. 성능과 한계 (농촌진흥청 NCPMS 공식 과실 사진 91장, 외부 평가)
+
+| 항목 | 결과 |
+|---|---|
+| 이상 검출 (병든 과실을 정상이 아니라고 판정) | 85/91 (93%) |
+| 부패병 그룹 (잿빛무늬병·탄저병·잿빛곰팡이병) | 49/61 (80%) |
+| 잿빛무늬병 | 25/31 |
+| 반점병 (세균구멍병 5/5, 검은별무늬병 6/12) | 11/17 |
+| 탄저병 | 7/19 (틀린 것 중 7장은 잿빛무늬병으로 판정 → 같은 부패병 그룹) |
+| 충해과 | 3/8 |
+| 병명 정답 (6클래스) | 48/91 |
+
+- 정상 미홍 사진이 없어 **오경보율(정상을 병으로 판정하는 비율)은 아직 모른다.**
+- 학습하지 않은 병해충(노린재, 바이로이드 등)도 6클래스 중 하나로 판정될 수 있다.
+- 틀린 판정도 확신도가 평균 0.83으로 높아서, 확신도만으로는 오답을 거르기 어렵다. 결과는 항상 "의심"으로 표시하고 농업기술센터 문의 안내를 함께 둔다.
+- `uncertain` 기준 0.5는 임시값이다. 팀 검수 뒤 재학습할 때 검증 데이터로 다시 정한다. 가중치를 바꿔도 이 인터페이스는 그대로 둔다.

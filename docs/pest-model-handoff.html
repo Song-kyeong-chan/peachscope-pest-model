@@ -1,0 +1,282 @@
+<title>PeachScope 병해충 모델 전달서</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* 레이아웃: 한 줄 기둥(문서), 상단 요약 띠 → 번호 없는 섹션들, 표는 가로 스크롤 컨테이너 */
+:root{
+  --bg:#fbfaf7; --surface:#ffffff; --fg:#22261f; --muted:#5f6659; --line:#e3e1d8;
+  --accent:#c2553f;      /* 복숭아 과피 붉은빛 */
+  --leaf:#4d7a3a;        /* 잎 녹색: 양호 */
+  --warn:#b7791f; --crit:#b23b2e;
+  --chip:#f3ede6;
+  --font-display:"IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-body:"IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1a1c18; --surface:#22251f; --fg:#e9e8e2; --muted:#a8ad9f; --line:#363a31;
+  --accent:#e98a72; --leaf:#8fbf74; --warn:#e0b05a; --crit:#ec7b6d; --chip:#2c2f27; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1a1c18; --surface:#22251f; --fg:#e9e8e2; --muted:#a8ad9f; --line:#363a31;
+  --accent:#e98a72; --leaf:#8fbf74; --warn:#e0b05a; --crit:#ec7b6d; --chip:#2c2f27; color-scheme:dark}
+
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:15px;line-height:1.7;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 64px}
+main{max-width:860px;margin:0 auto;display:grid;gap:44px}
+h1,h2,h3{font-family:var(--font-display);text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:28px;font-weight:700}
+h2{font-size:19px;font-weight:600;padding-bottom:8px;border-bottom:1px solid var(--line)}
+h3{font-size:15px;font-weight:600}
+p{margin:0;max-width:68ch}
+section{display:grid;gap:14px}
+.eyebrow{font-size:12px;letter-spacing:.08em;color:var(--accent);font-weight:600}
+.sub{color:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--muted);font-size:13px}
+code,.mono{font-family:var(--font-mono);font-size:13px}
+code{background:var(--chip);padding:1px 5px;border-radius:4px}
+ul{margin:0;padding-left:20px;display:grid;gap:4px}
+
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:2px}
+.stat b{font-size:24px;font-family:var(--font-display);font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--muted)}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;color:var(--muted);font-size:12.5px;letter-spacing:.03em;background:var(--chip)}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.bar{height:8px;border-radius:4px;background:var(--chip);overflow:hidden;min-width:90px}
+.bar i{display:block;height:100%;background:var(--accent)}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:1px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.ok{color:var(--leaf)} .mid{color:var(--warn)} .bad{color:var(--crit)}
+
+pre{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;font-family:var(--font-mono);font-size:12.5px;line-height:1.6}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:14px}
+.flow .node{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:6px 12px}
+.flow .node.me{border-color:var(--accent);color:var(--accent);font-weight:600}
+.flow .arr{color:var(--muted)}
+.callout{border-left:3px solid var(--warn);background:var(--surface);padding:12px 16px;border-radius:0 8px 8px 0;display:grid;gap:6px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.two>div{min-width:0;display:grid;gap:8px;align-content:start}
+footer{color:var(--muted);font-size:13px}
+</style>
+
+<main>
+  <header style="display:grid;gap:10px">
+    <div class="eyebrow">PEACHSCOPE · 병해충 판단 모듈</div>
+    <h1>병해충 모델 전달서</h1>
+    <p class="sub">미홍 봉지재배 복숭아 품질 예측 앱의 보조 기능인 병해충 판단 모델이 지금 어디까지 왔는지, 서버에 어떻게 붙이는지, 무엇이 남았는지 정리했습니다.</p>
+    <div class="meta"><span>작성 2026-11-21 · 갱신 2026-11-23</span><span>팀 포도알 · 병해충 담당</span><span>기록 원본: <code>docs/pest-model-experiment-log.md</code></span></div>
+  </header>
+
+  <section>
+    <h2>한눈에 보기</h2>
+    <div class="summary">
+      <div class="stat"><b>약 69%</b><span>전체 진행률</span></div>
+      <div class="stat"><b>93%</b><span>병든 과실을 '이상'으로 검출 (85/91)</span></div>
+      <div class="stat"><b>49 / 61</b><span>부패병 그룹 적중 (잿빛무늬병·탄저병·잿빛곰팡이병)</span></div>
+      <div class="stat"><b>11 / 17</b><span>반점병 적중 (세균구멍병 5/5)</span></div>
+    </div>
+    <p>연동용으로 <b>실험 4 ConvNeXt 모델(정상 · 반점병 · 잿빛무늬병 · 탄저병 · 충해과 · 기타)</b>과 서버에 바로 붙일 수 있는 추론 패키지 <code>pest_model/deploy/</code>를 넘깁니다. 클래스는 대응 방법이 같은 병끼리 묶었고, 세균구멍병과 검은별무늬병은 앱에서 질문으로 나눕니다. 팀 라벨 검수가 끝나면 같은 인터페이스로 가중치만 바꿉니다.</p>
+  </section>
+
+  <section>
+    <h2>단계별 진행률</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>단계</th><th>비중</th><th>진행</th><th style="width:22%"></th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td>데이터 수집·정제</td><td class="num">25%</td><td class="num">80%</td><td><div class="bar"><i style="width:80%"></i></div></td><td>공개 데이터 3종, 라벨 오류를 찾아 재분류 완료. <b>팀 검수만 남음</b></td></tr>
+        <tr><td>모델 개발</td><td class="num">25%</td><td class="num">80%</td><td><div class="bar"><i style="width:80%"></i></div></td><td>2단계 구조 완성(과실 탐지 → 병해 분류). 실험 4: 반점병 통합, 탄저병 분리, 입력 크기 비교(224 vs 288 차이 없음). <b>검수 반영 재학습이 남음</b></td></tr>
+        <tr><td>검증</td><td class="num">20%</td><td class="num">50%</td><td><div class="bar"><i style="width:50%"></i></div></td><td>내부·외부 검증 완료. <b>미홍 정상 과실 검증이 남음</b></td></tr>
+        <tr><td>서버 연동</td><td class="num">20%</td><td class="num">50%</td><td><div class="bar"><i style="width:50%"></i></div></td><td>추론 패키지 <code>peach_pest</code> 완성, 테스트 6개 통과. 과실이 없는 사진은 판정하지 않게 막음. 서버 반영·ONNX 변환이 남음</td></tr>
+        <tr><td>대응방안 콘텐츠</td><td class="num">10%</td><td class="num">90%</td><td><div class="bar"><i style="width:90%"></i></div></td><td>JSON v0.4.0: 12개 항목(정상·병해충·새 피해·판별 불가)의 증상·조치·출하 판단, 대응 등급(바로 / 이번 주 / 내년 예방), 반점병 질문 흐름. 전문가 확인이 남음</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>구조와 서버 연결 방식</h2>
+    <div class="flow">
+      <span class="node">농민 앱: 봉지 벗긴 과실 사진</span><span class="arr">→</span>
+      <span class="node">앱 서버 <code>/analyze</code></span><span class="arr">→</span>
+      <span class="node">과실 탐지 (팀 탐지기)</span><span class="arr">→</span>
+      <span class="node me">병해 분류 (이 모델)</span><span class="arr">→</span>
+      <span class="node">결과 + 대응방안</span>
+    </div>
+    <p>사진 한 장으로 품질 예측과 병해충 판단을 같이 합니다. 모델은 서버에서 돌기 때문에 앱 용량에는 영향이 없습니다. 품질 모델(<code>quality/base.py</code>)과 같은 Protocol 방식이고, 설치·연동 예시·결과 필드 설명은 <code>pest_model/deploy/README.md</code>에 있습니다.</p>
+    <pre>from peach_pest import ConvNeXtPestModel
+pest_model = ConvNeXtPestModel("pest_convnext_exp4.pt", "peach_pest_guide.json",
+                               detector="fruit_yolo11n.pt")  # 공통 탐지기 박스를 쓰면 생략
+pest = pest_model.predict(image_bytes, boxes=None)  # boxes: 원본 픽셀 [(x1,y1,x2,y2), ...]
+
+# pest.to_dict() 예시
+{
+  "fruits": [
+    {"box": [182.0, 459.8, 285.5, 637.0], "label": "brown_rot", "confidence": 0.99,
+     "uncertain": false, "guide_id": "brown_rot", "guide_type": "entry",
+     "tier": "urgent", "questions": [], "box_source": "detector", "probs": {...}}
+  ],
+  "summary": "brown_rot", "summary_guide_id": "brown_rot",
+  "summary_tier": "urgent",          // 사진에서 가장 급한 병해
+  "model_version": "pest-exp4-convnext-2026-11-23"
+}</pre>
+    <div class="two">
+      <div>
+        <h3>전처리 (모델과 반드시 같아야 함)</h3>
+        <ul>
+          <li>과실 박스를 가로·세로 10% 넓혀 자르기</li>
+          <li>288px로 리사이즈 후 중앙 288×288</li>
+          <li>ImageNet 정규화 (mean 0.485/0.456/0.406, std 0.229/0.224/0.225)</li>
+          <li>사진의 EXIF 회전 정보 반영 후 처리</li>
+        </ul>
+      </div>
+      <div>
+        <h3>앱 촬영 권장값</h3>
+        <ul>
+          <li>긴 변 1280~2048px, JPEG 품질 85 이상</li>
+          <li>원본 비율 유지 (정사각형으로 찌그러뜨리지 않기)</li>
+          <li>과실 하나가 300px 이상 찍히도록 "과실을 크게" 안내</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>넘기는 모델</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>항목</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td>모델</td><td>ConvNeXt-Tiny 분류기 (ImageNet 사전학습 → 미세조정), 288px 입력. 실험 4, 버전 <code>pest-exp4-convnext-2026-11-23</code></td></tr>
+        <tr><td>출력 클래스 순서</td><td><code>0 healthy</code> · <code>1 spot</code>(반점병) · <code>2 brown_rot</code> · <code>3 anthracnose</code> · <code>4 insect_damage</code> · <code>5 others</code>(그 밖의 부패)</td></tr>
+        <tr><td>코드</td><td><code>pest_model/deploy/peach_pest/</code> (전처리 포함), 테스트 <code>deploy/tests/</code>, 의존성 <code>deploy/requirements.txt</code></td></tr>
+        <tr><td>가중치</td><td><code>pest_model/weights/pest_convnext_exp4.pt</code> (약 106MB), 과실 탐지기 <code>pest_model/weights/fruit_yolo11n.pt</code> (약 5MB). 용량 때문에 Git에 없고 드라이브로 따로 전달합니다</td></tr>
+        <tr><td>실행 환경</td><td>Python 3.12, torch, timm (탐지기를 쓰면 ultralytics). CPU에서 과실 하나에 약 0.27초. 서버 이미지 용량이 문제면 ONNX 변환본을 준비합니다</td></tr>
+        <tr><td>대응방안 데이터</td><td><code>pest_model/knowledge/peach_pest_guide.json</code> v0.4.0: 증상, 헷갈리는 병, 지금 할 일, 예방, 방제 시기, 출하 판단, 함께 확인할 곳, 대응 등급, 질문 규칙, 그룹(부패병·반점병)</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>검증 결과</h2>
+    <h3>1. 데이터 누수 차단</h3>
+    <p>공개 데이터(Islamia)에 같은 사진의 증강 사본이 train과 test에 섞여 있었습니다. 원본 단위로 다시 나눠(8:1:1) test가 학습 데이터와 겹치지 않게 했습니다.</p>
+
+    <h3>2. 내부 test (재라벨 223장, 과실 단위)</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>클래스</th><th>F1</th><th>판단</th></tr></thead>
+      <tbody>
+        <tr><td>정상</td><td class="num">0.985</td><td><span class="pill ok">양호</span></td></tr>
+        <tr><td>잿빛무늬병</td><td class="num">0.794</td><td><span class="pill ok">양호</span></td></tr>
+        <tr><td>세균구멍병</td><td class="num">0.414</td><td><span class="pill bad">약함</span> 검은별무늬병과 사진만으로 구분이 어려움</td></tr>
+        <tr><td><b>macro 평균</b></td><td class="num"><b>0.731</b></td><td>정답은 AI 초벌 + 사람 검수 방식으로 재작성(검수 진행 중)</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>3. 외부 검증: 농촌진흥청 국가농작물병해충관리시스템(NCPMS) 공식 사진 91장</h3>
+    <p class="sub">학습에 전혀 쓰지 않은 한국 과원 사진이고, 정답은 전문가 판정입니다. 공식 OpenAPI로 받았습니다.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>실제 병해충</th><th>장수</th><th>모델 판정</th><th>이상 검출</th></tr></thead>
+      <tbody>
+        <tr><td>잿빛무늬병</td><td class="num">31</td><td>잿빛무늬병 30 · 세균구멍병 1</td><td class="num"><span class="pill ok">100%</span></td></tr>
+        <tr><td>탄저병</td><td class="num">19</td><td>잿빛무늬병 15 · 세균구멍병 3 · 정상 1</td><td class="num"><span class="pill ok">95%</span></td></tr>
+        <tr><td>검은별무늬병</td><td class="num">12</td><td>잿빛무늬병 11 · 정상 1</td><td class="num"><span class="pill ok">92%</span></td></tr>
+        <tr><td>잿빛곰팡이병</td><td class="num">11</td><td>잿빛무늬병 10 · 세균구멍병 1</td><td class="num"><span class="pill ok">100%</span></td></tr>
+        <tr><td>충해과 (순나방·명나방)</td><td class="num">8</td><td>잿빛무늬병 7 · 정상 1</td><td class="num"><span class="pill ok">88%</span></td></tr>
+        <tr><td>세균구멍병</td><td class="num">5</td><td>잿빛무늬병 5</td><td class="num"><span class="pill ok">100%</span></td></tr>
+        <tr><td>노린재·매미충·바이로이드</td><td class="num">5</td><td>정상 3 · 잿빛무늬병 2</td><td class="num"><span class="pill bad">40%</span></td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li><b>이상 과실은 잘 걸러냅니다.</b> 병든 과실 86장 중 82장을 정상이 아니라고 판정했습니다.</li>
+      <li><b>병명은 잿빛무늬병으로 쏠립니다.</b> 모델이 아는 병이 3개뿐이라 처음 보는 병을 가장 가까운 잿빛무늬병으로 답합니다. 6클래스 확장과 "판별 불가" 처리로 해결할 예정입니다.</li>
+      <li>사진 전체 대신 과실을 잘라서 보면 검출률이 오릅니다(탄저병 74% → 95%). 2단계 구조를 쓰는 근거입니다.</li>
+    </ul>
+
+    <h3>4. 엉뚱한 단서 점검</h3>
+    <p>실험 1에서 모델이 병 대신 촬영 거리(정상은 먼 사진, 병은 접사)로 구분하는 문제를 발견했습니다. 과실만 잘라서 보는 구조로 바꿔 해결했고, 출처별 성능 비교와 Grad-CAM으로 확인했습니다.</p>
+    <h3>5. 6클래스 확장 모델 예비 결과 (같은 NCPMS 91장)</h3>
+    <p class="sub">정상 · 세균구멍병 · 검은별무늬병 · 잿빛무늬병 · 충해과 · 기타(탄저병, 잿빛곰팡이병, 노린재 등). 학습 라벨이 검수 전이라 예비 결과입니다.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>항목</th><th>2-B (연동용, 3클래스)</th><th>확장 예비 (6클래스)</th></tr></thead>
+      <tbody>
+        <tr><td><b>병명 정답</b></td><td class="num">30장 (33%)</td><td class="num"><b>53장 (58%)</b></td></tr>
+        <tr><td>이상 검출</td><td class="num">93%</td><td class="num">93%</td></tr>
+        <tr><td>잿빛무늬병</td><td class="num"><b>30/31</b></td><td class="num">25/31</td></tr>
+        <tr><td>세균구멍병</td><td class="num">0/5</td><td class="num"><b>5/5</b></td></tr>
+        <tr><td>검은별무늬병</td><td class="num">0/12</td><td class="num">5/12</td></tr>
+        <tr><td>충해과</td><td class="num">0/8</td><td class="num">5/8</td></tr>
+        <tr><td>기타 (탄저병 등)</td><td class="num">해당 클래스 없음</td><td class="num">13/35 (11장은 잿빛무늬병으로)</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li><b>클래스를 늘린 효과는 확인했습니다.</b> 병명 정답률이 33%에서 58%로 올랐고, 병든 과실을 놓치는 비율은 그대로입니다.</li>
+      <li><b>잿빛무늬병 정확도는 떨어졌습니다</b>(97% → 81%). 앱에서 가장 중요한 병이라 연동용은 당분간 2-B를 유지합니다.</li>
+      <li>약점은 "기타"(부패형 병이 잿빛무늬병과 비슷함)와 검은별무늬병(학습 사진 54장)입니다. 라벨 검수와 데이터 보강 후 다시 학습합니다.</li>
+    </ul>
+
+    <h3>6. 연동 모델: 실험 4 (같은 NCPMS 91장)</h3>
+    <p class="sub">대응이 같은 병끼리 클래스를 다시 묶었습니다. 세균구멍병과 검은별무늬병은 사진만으로 확실히 가르기 어려워 <b>반점병</b>으로 묶고 앱에서 질문으로 나눕니다. 기타의 대부분이던 탄저병은 독립 클래스로 뺐습니다.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>실제 병해충</th><th>장수</th><th>2-B (3클래스)</th><th>실험 4 (연동용)</th></tr></thead>
+      <tbody>
+        <tr><td>잿빛무늬병</td><td class="num">31</td><td class="num"><b>30</b></td><td class="num">25</td></tr>
+        <tr><td>탄저병</td><td class="num">19</td><td>구분 못 함 (잿빛무늬병 15)</td><td>탄저병 7 · 잿빛무늬병 7 → 부패병 그룹 14</td></tr>
+        <tr><td>잿빛곰팡이병</td><td class="num">11</td><td>잿빛무늬병 10</td><td>부패병 그룹 9</td></tr>
+        <tr><td>세균구멍병</td><td class="num">5</td><td class="num">0</td><td class="num"><b>5 (반점병)</b></td></tr>
+        <tr><td>검은별무늬병</td><td class="num">12</td><td class="num">0 (잿빛무늬병 11)</td><td class="num"><b>6 (반점병)</b></td></tr>
+        <tr><td>충해과</td><td class="num">8</td><td class="num">0 (잿빛무늬병 7)</td><td class="num"><b>3</b></td></tr>
+        <tr><td>이상 검출</td><td class="num">91</td><td class="num">93%</td><td class="num">93% (85/91)</td></tr>
+      </tbody>
+    </table></div>
+    <ul>
+      <li><b>2-B는 거의 모든 병을 잿빛무늬병으로 답합니다.</b> 잿빛무늬병 적중은 높지만 반점병·충해과를 하나도 구분하지 못해, 앱에서 병마다 다른 대응을 안내할 수 없습니다.</li>
+      <li><b>실험 4는 대응 단위(부패병 · 반점병 · 충해과)로 구분합니다.</b> 잿빛무늬병 단독 적중은 25/31로 낮지만, 부패병 그룹으로 보면 49/61이고 대응(바로 제거, 출하 제외)은 같습니다.</li>
+      <li>입력 크기 224와 288의 차이는 통계적으로 의미가 없었습니다(McNemar p = 1.0). 288을 유지합니다.</li>
+      <li>학습 라벨 중 442개는 팀 검수 전 임시 라벨입니다. 검수 뒤 다시 학습해 같은 기준으로 비교합니다.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>한계</h2>
+    <div class="callout">
+      <p><b>정상 과실 오경보율을 아직 재지 못했습니다.</b> 외부 데이터에 정상 사진이 없고, 미홍 품종 사진은 공개된 것이 없습니다.</p>
+      <p><b>세균구멍병과 검은별무늬병은 사진만으로 나누지 않습니다.</b> 농촌진흥청 공식 사진에서도 과실 증상이 매우 비슷해 반점병으로 묶었고, 앱에서 "잎에 작은 구멍이 있는지" 같은 질문으로 나눕니다.</p>
+      <p><b>과실이 아닌 사진도 병으로 판정할 수 있습니다.</b> 처음 점검에서 단색 이미지가 충해과 96%로 나왔습니다. 과실을 찾지 못하면 판정하지 않고(<code>status: "no_fruit"</code>, 다시 찍기 안내), 너무 작거나 단색인 박스는 버리도록 고쳤습니다. 다만 잎·땅처럼 무늬가 있는 사진을 탐지기가 과실로 잡으면 여전히 판정되므로, 미홍 사진으로 탐지기를 확인해야 합니다.</p>
+      <p><b>틀린 판정도 확신도가 높습니다</b>(오답 평균 0.83). 결과는 항상 "의심"으로 표시하고 농업기술센터 문의를 함께 안내합니다. "판별 불가" 기준(0.5)은 임시값입니다.</p>
+      <p><b>잎·가지·봉지 겉면은 AI로 판정하지 않습니다.</b> 과실 판정 결과에 맞춰 "함께 확인할 곳"을 안내하는 방식으로 범위를 정했습니다.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>팀에 필요한 것</h2>
+    <div class="tbl"><table>
+      <thead><tr><th>요청</th><th>누구에게</th><th>이유</th></tr></thead>
+      <tbody>
+        <tr><td>미홍 과실 폰 사진 (정상, 가능하면 병든 것도)</td><td>품질 예측 팀</td><td>정상 오경보율 측정. 품질 모델용으로 찍은 사진을 같이 쓰면 됩니다</td></tr>
+        <tr><td>과실 탐지기의 출력 형식 (박스 좌표 예시 한 줄)</td><td>과실 탐지 담당</td><td>병해 분류기 입력과 맞추고, 팀 탐지기 박스로 성능을 다시 확인</td></tr>
+        <tr><td>탐지기 학습에 쓴 사진 목록</td><td>과실 탐지 담당</td><td>병해 test와 겹치면 평가가 부풀려짐</td></tr>
+        <tr><td><code>pest_model/deploy</code> 패키지를 서버에 넣고 <code>/analyze</code> 응답에 <code>pest</code> 필드 추가</td><td>앱 서버 담당</td><td>연동 예시는 <code>deploy/README.md</code>. PR로 올릴지 직접 넣을지 결정</td></tr>
+        <tr><td>병해 판정을 가격에 반영할지</td><td>가격 예측 담당</td><td><code>shipping.decision</code>(출하 가능 / 선별 제외 / 확인 후 결정)을 쓸 수 있음</td></tr>
+        <tr><td>학습 라벨 검수 (442개) + test 정답지 (223장)</td><td>팀 전체</td><td>임시 라벨을 확정해야 최종 모델을 학습할 수 있음. 1인당 20~30분</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>다음 일정</h2>
+    <ul>
+      <li>라벨 검수 반영 → 실험 4 클래스로 재학습, 가중치만 교체 (인터페이스 유지)</li>
+      <li>탄저병 학습 데이터 보강 (현재 32개)</li>
+      <li>확신도가 낮으면 "판별 불가"로 돌려주는 기준값을 검증 데이터로 설정</li>
+      <li>필요하면 ONNX 변환 (서버 이미지 용량 절감)</li>
+      <li>대응 등급·대응방안 내용 전문가 확인</li>
+      <li>미홍 사진 확보 후 오경보율 측정</li>
+    </ul>
+  </section>
+
+  <footer>사진 진단은 참고용이며, 방제 결정은 지역 농업기술센터 안내를 따르도록 앱에 표시합니다. NCPMS 사진은 평가용으로만 쓰고 저장소와 앱에는 넣지 않았습니다.</footer>
+</main>

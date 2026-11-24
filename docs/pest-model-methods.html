@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>병해 모델 방법 정리</title>
+<style>
+:root {
+  --bg: #f7f6f2; --surface: #ffffff; --text: #1f2421; --muted: #5d655f; --line: #dcdcd4;
+  --accent: #2f6b4f; --accent-soft: #e3efe8; --warn: #9a5b12; --warn-soft: #f8ecd9; --code: #eeede7;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161a18; --surface: #1e2321; --text: #e6e9e6; --muted: #9ba39d; --line: #333a36;
+    --accent: #7cc4a0; --accent-soft: #233a2f; --warn: #e3b26b; --warn-soft: #3a2e1c; --code: #2a302d;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161a18; --surface: #1e2321; --text: #e6e9e6; --muted: #9ba39d; --line: #333a36;
+  --accent: #7cc4a0; --accent-soft: #233a2f; --warn: #e3b26b; --warn-soft: #3a2e1c; --code: #2a302d;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+}
+main { max-width: 960px; margin: 0 auto; padding: 40px 16px 80px; }
+header p { color: var(--muted); margin: 4px 0 0; }
+h1 { font-size: 1.9rem; margin: 0; letter-spacing: -0.01em; }
+h2 { font-size: 1.35rem; margin: 48px 0 12px; padding-bottom: 6px; border-bottom: 2px solid var(--accent); }
+h3 { font-size: 1.08rem; margin: 28px 0 8px; color: var(--accent); }
+nav { margin: 20px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
+nav a { font-size: .9rem; text-decoration: none; color: var(--accent); background: var(--accent-soft);
+  padding: 4px 10px; border-radius: 999px; }
+code { font: .88em ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--code); padding: 1px 5px; border-radius: 4px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; margin: 12px 0; }
+.note { background: var(--warn-soft); border-left: 4px solid var(--warn); padding: 10px 14px; border-radius: 6px; margin: 12px 0; }
+.table-wrap { overflow-x: auto; margin: 10px 0; }
+table { border-collapse: collapse; width: 100%; font-size: .92rem; background: var(--surface); }
+th, td { border: 1px solid var(--line); padding: 7px 10px; text-align: left; vertical-align: top; }
+th { background: var(--accent-soft); font-weight: 600; white-space: nowrap; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; margin: 12px 0; }
+.step { flex: 1 1 150px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font-size: .9rem; }
+.step b { display: block; color: var(--accent); margin-bottom: 2px; }
+.arrow { align-self: center; color: var(--muted); }
+ul { padding-left: 1.2em; } li { margin: 3px 0; }
+.muted { color: var(--muted); font-size: .9rem; }
+@media (max-width: 600px) { .arrow { display: none; } h1 { font-size: 1.5rem; } }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>복숭아 병해 진단 모델: 알고리즘과 전처리</h1>
+  <p>PeachScope 병해충 모델 · 팀 포도알 · 2026-11-14 기준 (실험 1, 실험 2, 실험 2-B)</p>
+  <nav>
+    <a href="#overview">전체 흐름</a><a href="#data">데이터</a><a href="#prep">전처리</a>
+    <a href="#algo">알고리즘</a><a href="#eval">평가·점검</a><a href="#results">결과 요약</a><a href="#code">코드</a>
+  </nav>
+</header>
+
+<h2 id="overview">1. 전체 흐름</h2>
+<p>목표는 복숭아 과실 사진에서 <b>정상 / 세균구멍병(shot hole) / 잿빛무늬병(brown rot)</b>을 판정하는 것입니다. 두 가지 구조를 만들어 비교했습니다.</p>
+<div class="card">
+  <b>2단계 구조</b>
+  <div class="flow">
+    <div class="step"><b>입력</b>과실 사진 (여러 개 가능)</div><div class="arrow">→</div>
+    <div class="step"><b>과실 탐지</b>YOLO11n (1클래스 'peach')</div><div class="arrow">→</div>
+    <div class="step"><b>자르기</b>정사각형 + 여백 10%, 288×288</div><div class="arrow">→</div>
+    <div class="step"><b>분류</b>CNN (ResNet-50 / ConvNeXt-Tiny)</div>
+  </div>
+  <b>1단계 구조</b>
+  <div class="flow">
+    <div class="step"><b>입력</b>과실 사진</div><div class="arrow">→</div>
+    <div class="step"><b>탐지 + 분류</b>YOLO11n (3클래스: 정상·세균구멍병·잿빛무늬병)</div>
+  </div>
+</div>
+
+<h2 id="data">2. 사용한 데이터</h2>
+<div class="table-wrap"><table>
+<tr><th>데이터</th><th>형태</th><th>쓴 곳</th><th>비고</th></tr>
+<tr><td>PDDICP (Mendeley)</td><td>사진 단위 분류 라벨</td><td>실험 1</td><td>과실 3클래스 942장만 사용. bacterial spot(라벨 오류)과 잎 클래스는 제외</td></tr>
+<tr><td>Roboflow Universe “peach detection” (Islamia College Peshawar, CC BY 4.0)</td><td>YOLO 박스 라벨 3클래스</td><td>실험 2</td><td>원본 크기 버전을 포크해서 내보냄. 증강본 누수와 라벨 노이즈가 있음 (아래 참고)</td></tr>
+<tr><td>Roboflow Universe “Peach Disease” (zeerox, CC BY 4.0)</td><td>PDDICP 사진 + 과실 박스(일부 다각형)</td><td>실험 2-B</td><td>정상·세균구멍병·잿빛무늬병만 사용. bacterial_spot, shot_hole_leaf 제외</td></tr>
+</table></div>
+
+<h2 id="prep">3. 전처리</h2>
+
+<h3>3-1. 공통: 중복 사진 묶기와 묶음 단위 분할</h3>
+<div class="card">
+<ul>
+  <li><b>EXIF 회전 보정</b>: <code>ImageOps.exif_transpose</code>로 촬영 방향대로 세운 뒤 RGB로 변환</li>
+  <li><b>dHash 지각 해시</b>: 흑백 17×16으로 줄이고 이웃 픽셀 밝기를 비교해 256비트 지문을 만듦. 해밍 거리가 작으면 같은 사진 또는 증강본으로 판단
+    <ul><li>실험 1: 거리 ≤ 6</li><li>실험 2: 거리 ≤ 10 (Roboflow 증강본까지 잡기 위해 기준을 넓힘)</li></ul></li>
+  <li><b>Union-Find 묶기</b>: 해시가 가까운 사진, Roboflow 원본 이름(<code>이름.rf.해시</code>의 앞부분)이 같은 사진을 한 묶음으로 합침</li>
+  <li><b>묶음 단위 층화 분할</b> (seed 42): 같은 묶음은 반드시 같은 쪽(train/val/test)에 들어감 → 같은 사진의 변형이 train과 test에 갈라져 점수가 부풀려지는 것(누수)을 막음</li>
+</ul>
+</div>
+
+<h3>3-2. 실험 1 (PDDICP 사진 전체 분류)</h3>
+<div class="table-wrap"><table>
+<tr><th>단계</th><th>내용</th></tr>
+<tr><td>추출</td><td>zip에서 과실 3클래스만 추출: 정상 353, 세균구멍병 540, 잿빛무늬병 49</td></tr>
+<tr><td>축소 저장</td><td>짧은 변 288px로 줄임 (Bicubic)</td></tr>
+<tr><td>분할</td><td>클래스별 묶음 단위 8 : 1 : 1 (train / val / test)</td></tr>
+<tr><td>교차검증</td><td>test를 뺀 90%로 5-fold 교차검증 → 평균 ± 표준편차로 보고</td></tr>
+</table></div>
+
+<h3>3-3. 실험 2 (Islamia: 과실 잘라서 분류)</h3>
+<div class="note"><b>발견한 문제</b> · Islamia 원래 분할에서는 원본 852개의 증강본이 train/valid/test에 섞여 있었습니다. 공개된 mAP 94.3%가 부풀려진 이유입니다. 그래서 위의 묶음 단위 방식으로 다시 나눴습니다.</div>
+<div class="table-wrap"><table>
+<tr><th>단계</th><th>내용</th></tr>
+<tr><td>중복 점검</td><td>Islamia 내부, Islamia–PDDICP 사이 dHash 거리 계산 (메모리 절약을 위해 256장씩 나눠 계산). PDDICP와 겹치는 묶음 19개 표시</td></tr>
+<tr><td>재분할</td><td>원본 1,488묶음을 70 / 15 / 15로 분할. 대표 클래스 우선순위는 잿빛무늬병 &gt; 세균구멍병 &gt; 정상. valid/test는 묶음당 1장만 남겨 증강본 중복 제거 → train 2,717장, valid 223장, test 223장</td></tr>
+<tr><td>과실 자르기</td><td>정답 박스를 정사각형으로 넓히고 사방 10% 여백 → 288×288 (Bicubic). 모든 과실이 같은 크기가 되어 촬영 거리·구도 단서가 사라짐. 사진 밖으로 나간 부분은 검은색</td></tr>
+<tr><td>작은 박스 제외</td><td>짧은 변 48px 미만은 병반이 안 보여 학습에서 제외 (461개). 시스템 평가 때는 제외하지 않음</td></tr>
+<tr><td>결과</td><td>과실 4,244개. train: 정상 762 / 세균구멍병 1,961 / 잿빛무늬병 935</td></tr>
+</table></div>
+
+<h3>3-4. 실험 2-B (믿을 만한 라벨만 모은 데이터)</h3>
+<p>라벨을 점검해 보니 Islamia에는 사진 하나의 라벨을 모든 박스에 붙인 경우, <code>bad-</code> 출처의 일반 부패과를 세균구멍병으로 붙인 경우, PDDICP 세균구멍병 41장을 잿빛무늬병으로 붙인 경우가 있었습니다. 그래서 라벨이 믿을 만한 부분만 모았습니다.</p>
+<div class="table-wrap"><table>
+<tr><th>단계</th><th>내용</th></tr>
+<tr><td>포함</td><td>zeerox 전체(정상·세균구멍병·잿빛무늬병) + Islamia의 <code>GOOD-</code> 정상 + 숫자형 파일명의 잿빛무늬병</td></tr>
+<tr><td>제외</td><td>PDDICP와 겹치는 Islamia 묶음 (zeerox에 이미 들어 있음)</td></tr>
+<tr><td>다각형 → 박스</td><td>zeerox의 다각형 라벨(2,488줄)을 꼭짓점을 모두 감싸는 사각형으로 변환</td></tr>
+<tr><td>분할</td><td>Islamia는 3-3의 분할을 그대로 따름. zeerox는 따로 묶고, Islamia와 겹치면 그 분할을 따르게 함(test &gt; valid &gt; train 우선). 나머지는 70 / 15 / 15</td></tr>
+<tr><td>결과</td><td>과실 4,464개 (train 3,310 / val 600 / test 554)</td></tr>
+</table></div>
+
+<h3>3-5. 학습할 때의 입력 변환</h3>
+<div class="table-wrap"><table>
+<tr><th>모델</th><th>train</th><th>val / test</th></tr>
+<tr><td>CNN 분류기</td><td>Resize 224 → CenterCrop 224 → <b>좌우 뒤집기</b> → ImageNet 평균·표준편차로 정규화</td><td>Resize 224 → CenterCrop 224 → 정규화 (증강 없음)</td></tr>
+<tr><td>YOLO11n</td><td>640×640, ultralytics 기본 증강: 모자이크(마지막 10 epoch는 끔), HSV 색감 변화(h 0.015, s 0.7, v 0.4), 이동 0.1, 크기 0.5, 좌우 뒤집기 0.5, RandAugment, random erasing 0.4</td><td>640×640 (증강 없음)</td></tr>
+</table></div>
+<p class="muted">분류기에 색 변화 같은 강한 증강을 쓰지 않은 이유: 잿빛무늬병과 세균구멍병은 색과 반점 모양으로 구분되므로, 색을 바꾸면 병징 자체를 망가뜨릴 수 있습니다.</p>
+
+<h2 id="algo">4. 알고리즘</h2>
+
+<h3>4-1. CNN 분류기 (전이학습)</h3>
+<p>ImageNet으로 사전학습된 모델(timm)의 마지막 층을 3클래스로 바꿔 미세조정했습니다.</p>
+<div class="table-wrap"><table>
+<tr><th>모델</th><th>파라미터</th><th>특징</th><th>쓴 곳</th></tr>
+<tr><td>MobileNetV3-Large</td><td class="num">5.5M</td><td>모바일용 경량 구조</td><td>실험 1</td></tr>
+<tr><td>EfficientNet-B0</td><td class="num">5.3M</td><td>깊이·너비·해상도를 함께 조절한 경량 구조</td><td>실험 1</td></tr>
+<tr><td>ResNet-50</td><td class="num">25.6M</td><td>잔차 연결. 기본 기준선</td><td>실험 1, 2, 2-B</td></tr>
+<tr><td>ConvNeXt-Tiny</td><td class="num">28.6M</td><td>Transformer 설계를 가져온 최신 CNN</td><td>실험 1, 2, 2-B</td></tr>
+</table></div>
+<div class="table-wrap"><table>
+<tr><th>학습 설정</th><th>값</th></tr>
+<tr><td>옵티마이저</td><td>AdamW (weight decay 1e-4)</td></tr>
+<tr><td>학습률</td><td>3e-4. ConvNeXt-Tiny만 5e-5 (3e-4에서는 loss가 0.59에서 멈춤)</td></tr>
+<tr><td>스케줄러</td><td>Cosine Annealing (10 epoch)</td></tr>
+<tr><td>배치 크기</td><td>32</td></tr>
+<tr><td>손실 함수</td><td>클래스 가중 Cross-Entropy. 가중치 = 전체 수 / (클래스 수 × 클래스별 수) → 수가 적은 잿빛무늬병의 오답에 더 큰 벌점</td></tr>
+<tr><td>모델 선택</td><td>val macro-F1이 가장 높은 epoch의 가중치로 test를 한 번만 평가</td></tr>
+<tr><td>환경</td><td>Apple M4, PyTorch MPS, seed 42</td></tr>
+</table></div>
+
+<h3>4-2. YOLO11n 탐지기</h3>
+<div class="table-wrap"><table>
+<tr><th>항목</th><th>과실 탐지기 (2단계용)</th><th>병해 탐지기 (1단계용)</th></tr>
+<tr><td>클래스</td><td>1개: peach (모든 박스를 과실로 합침)</td><td>3개: brown_rot, healthy, shot_hole</td></tr>
+<tr><td>시작 가중치</td><td colspan="2">COCO 사전학습 <code>yolo11n.pt</code> (2.6M 파라미터)</td></tr>
+<tr><td>학습</td><td colspan="2">50 epoch, 입력 640, 배치 16, 옵티마이저 auto(ultralytics), 초기 학습률 0.01, early stopping patience 15</td></tr>
+<tr><td>모델 선택</td><td colspan="2">val 성능(fitness)이 가장 좋은 best.pt로 test 1회 평가</td></tr>
+</table></div>
+
+<h2 id="eval">5. 평가와 점검 방법</h2>
+
+<h3>5-1. 지표</h3>
+<ul>
+  <li><b>macro-F1</b>: 클래스별 F1의 단순 평균. 정상이 많은 데이터에서도 잿빛무늬병 성능이 똑같은 무게로 반영됨 (정확도 대신 주 지표로 사용)</li>
+  <li><b>mAP50 / mAP50-95</b>: YOLO 탐지 성능. IoU 0.5 기준 / 0.5~0.95 평균</li>
+</ul>
+
+<h3>5-2. 시스템 전체 평가 (<code>eval_pipeline.py</code>)</h3>
+<p>2단계, 1단계, oracle(정답 박스로 자른 경우, 분류기만의 상한)을 같은 방식으로 채점했습니다.</p>
+<ol>
+  <li><b>과실 짝짓기</b>: 예측 박스를 신뢰도 높은 순으로, IoU ≥ 0.5인 정답 박스와 1:1로 짝지음(탐욕적 매칭) → 탐지 재현율·정밀도</li>
+  <li><b>짝지은 과실 분류</b>: 탐지가 맞은 과실만 놓고 혼동행렬, macro-F1</li>
+  <li><b>끝단(end-to-end) F1</b>: 놓친 과실은 FN, 짝 없는 예측은 FP, 클래스가 틀린 경우는 FN과 FP 둘 다로 셈</li>
+  <li><b>사진 단위 F1</b>: “이 사진에 X병 과실이 있나”를 클래스별로 판정. 앱에서 사진 한 장으로 진단하는 상황에 가장 가까움</li>
+</ol>
+
+<h3>5-3. 편향·지름길 점검</h3>
+<div class="table-wrap"><table>
+<tr><th>방법</th><th>무엇을 보나</th></tr>
+<tr><td>저해상도 기준선 (<code>bias_check.py</code>)</td><td>16×16으로 줄인 사진, HSV 색 히스토그램만 넣은 로지스틱 회귀(표준화, L2)가 얼마나 맞히는지 → 병반이 안 보여도 맞힌다면 배경·구도·색 같은 지름길이 있다는 뜻</td></tr>
+<tr><td>출처 지름길 (<code>eval_by_source.py</code>)</td><td>2-B 데이터는 출처마다 클래스 구성이 다름. CNN 재현율을 (출처, 정답)별로 나눠 보고, 16×16 입력으로 출처를 맞히는 로지스틱 회귀로 출처 구별이 얼마나 쉬운지 확인</td></tr>
+<tr><td>Grad-CAM (<code>gradcam.py</code>)</td><td>마지막 합성곱 층의 기울기로 모델이 사진의 어디를 보고 판단했는지 열지도로 표시</td></tr>
+</table></div>
+
+<h2 id="results">6. 결과 요약</h2>
+<div class="table-wrap"><table>
+<tr><th>모델</th><th>test</th><th>macro-F1</th><th>잿빛무늬병 F1</th></tr>
+<tr><td>실험 1 ConvNeXt-Tiny</td><td>PDDICP 5-fold 교차검증</td><td class="num">0.856 ± 0.029</td><td class="num">0.63</td></tr>
+<tr><td>실험 2 ConvNeXt-Tiny</td><td>Islamia 원래 라벨 (노이즈 있음)</td><td class="num">0.925</td><td class="num">0.855</td></tr>
+<tr><td>실험 2-B ConvNeXt-Tiny</td><td>깨끗한 라벨 554개</td><td class="num">0.978</td><td class="num">0.957</td></tr>
+<tr><td>YOLO11n 과실 탐지기</td><td>Islamia test 223장</td><td class="num">mAP50 0.762</td><td class="num">-</td></tr>
+<tr><td>YOLO11n 병해 탐지기</td><td>Islamia test 223장</td><td class="num">mAP50 0.713</td><td class="num">AP50 0.624</td></tr>
+<tr><td>2단계 시스템 (ResNet-50)</td><td>Islamia test, 끝단 / 사진 단위</td><td class="num">0.631 / 0.871</td><td class="num">0.598 / 0.800</td></tr>
+<tr><td>1단계 시스템</td><td>Islamia test, 끝단 / 사진 단위</td><td class="num">0.632 / 0.849</td><td class="num">0.591 / 0.763</td></tr>
+</table></div>
+<div class="note">줄마다 test가 달라 숫자를 바로 비교하면 안 됩니다. 팀이 Islamia test 223장을 다시 라벨하고 있으며, 끝나면 모든 모델을 같은 정답으로 다시 채점합니다.</div>
+
+<h2 id="code">7. 코드 (<code>pest_model/</code>)</h2>
+<div class="table-wrap"><table>
+<tr><th>파일</th><th>역할</th></tr>
+<tr><td><code>prepare.py</code></td><td>실험 1: PDDICP 추출, 축소, dHash 묶기, 8:1:1 분할</td></tr>
+<tr><td><code>train.py</code> · <code>cv.py</code></td><td>CNN 미세조정 · 5-fold 교차검증</td></tr>
+<tr><td><code>dedup_islamia.py</code> · <code>resplit_islamia.py</code></td><td>Islamia 중복 점검 · 묶음 단위 재분할</td></tr>
+<tr><td><code>crop_fruits.py</code></td><td>정답 박스로 과실 자르기 (288×288, 여백 10%)</td></tr>
+<tr><td><code>build_clean_b.py</code></td><td>실험 2-B 데이터 구성</td></tr>
+<tr><td><code>build_yolo_ds.py</code> · <code>train_yolo.py</code></td><td>YOLO 데이터셋(과실 1클래스 / 병해 3클래스) 생성 · YOLO 학습과 test 평가</td></tr>
+<tr><td><code>eval_pipeline.py</code> · <code>run_eval_exp2.sh</code></td><td>2단계·1단계·oracle 시스템 평가 · 전체 조합 실행과 표 생성</td></tr>
+<tr><td><code>bias_check.py</code> · <code>eval_by_source.py</code> · <code>gradcam.py</code></td><td>편향·출처 지름길·Grad-CAM 점검</td></tr>
+</table></div>
+<p class="muted">자세한 진행 기록은 <code>docs/pest-model-experiment-log.md</code>에 있습니다.</p>
+</main>
+</body>
+</html>

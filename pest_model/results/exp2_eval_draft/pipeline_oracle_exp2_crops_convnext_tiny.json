@@ -1,0 +1,57 @@
+{
+  "system": "oracle",
+  "name": "oracle_exp2_crops_convnext_tiny",
+  "gt": "/Users/song-gyeongchan/peachscope-data/relabel_draft/test",
+  "yolo": null,
+  "arch": "convnext_tiny",
+  "weights": "/Users/song-gyeongchan/orca/workspaces/planning/작물표현형-이미지분석-기획안/pest_model/results/exp2_crops/convnext_tiny.pt",
+  "conf": 0.25,
+  "n_images": 223,
+  "n_gt_fruits": 152,
+  "n_pred_boxes": 152,
+  "det_recall": 1.0,
+  "det_precision": 1.0,
+  "matched_cls_macro_f1": 0.6975,
+  "matched_cls_acc": 0.8289,
+  "matched_confusion": [
+    [
+      96,
+      5,
+      0
+    ],
+    [
+      1,
+      12,
+      10
+    ],
+    [
+      0,
+      10,
+      18
+    ]
+  ],
+  "e2e": {
+    "healthy": {
+      "precision": 0.9897,
+      "recall": 0.9505,
+      "f1": 0.9697
+    },
+    "shot_hole": {
+      "precision": 0.4444,
+      "recall": 0.5217,
+      "f1": 0.48
+    },
+    "brown_rot": {
+      "precision": 0.6429,
+      "recall": 0.6429,
+      "f1": 0.6429
+    }
+  },
+  "image_level_f1": {
+    "healthy": 0.9667,
+    "shot_hole": 0.5128,
+    "brown_rot": 0.6087
+  },
+  "e2e_macro_f1": 0.6975,
+  "image_level_macro_f1": 0.6961
+}

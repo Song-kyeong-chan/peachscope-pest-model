@@ -1,0 +1,57 @@
+{
+  "system": "2stage",
+  "name": "2stage_exp2_crops_convnext_tiny",
+  "gt": "/Users/song-gyeongchan/peachscope-data/relabel_draft/test",
+  "yolo": "/Users/song-gyeongchan/orca/workspaces/planning/작물표현형-이미지분석-기획안/pest_model/results/exp2_yolo/yolo11n_fruit/weights/best.pt",
+  "arch": "convnext_tiny",
+  "weights": "/Users/song-gyeongchan/orca/workspaces/planning/작물표현형-이미지분석-기획안/pest_model/results/exp2_crops/convnext_tiny.pt",
+  "conf": 0.25,
+  "n_images": 223,
+  "n_gt_fruits": 152,
+  "n_pred_boxes": 403,
+  "det_recall": 0.8026,
+  "det_precision": 0.5484,
+  "matched_cls_macro_f1": 0.7731,
+  "matched_cls_acc": 0.8852,
+  "matched_confusion": [
+    [
+      79,
+      1,
+      0
+    ],
+    [
+      1,
+      9,
+      8
+    ],
+    [
+      0,
+      4,
+      20
+    ]
+  ],
+  "e2e": {
+    "healthy": {
+      "precision": 0.7315,
+      "recall": 0.7822,
+      "f1": 0.756
+    },
+    "shot_hole": {
+      "precision": 0.0621,
+      "recall": 0.3913,
+      "f1": 0.1071
+    },
+    "brown_rot": {
+      "precision": 0.3922,
+      "recall": 0.7143,
+      "f1": 0.5063
+    }
+  },
+  "image_level_f1": {
+    "healthy": 0.912,
+    "shot_hole": 0.1844,
+    "brown_rot": 0.6111
+  },
+  "e2e_macro_f1": 0.4565,
+  "image_level_macro_f1": 0.5692
+}

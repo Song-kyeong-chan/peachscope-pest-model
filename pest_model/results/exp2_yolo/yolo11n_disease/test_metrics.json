@@ -1,0 +1,14 @@
+{
+  "model": "yolo11n.pt",
+  "data": "/Users/song-gyeongchan/peachscope-data/islamia_yolo_disease/data.yaml",
+  "epochs": 50,
+  "test_mAP50": 0.7128,
+  "test_mAP50_95": 0.4594,
+  "test_precision": 0.69,
+  "test_recall": 0.6527,
+  "per_class_mAP50": {
+    "brown_rot": 0.6241,
+    "healthy": 0.8703,
+    "shot_hole": 0.6441
+  }
+}

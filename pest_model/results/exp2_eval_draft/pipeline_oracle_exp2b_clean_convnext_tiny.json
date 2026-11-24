@@ -1,0 +1,57 @@
+{
+  "system": "oracle",
+  "name": "oracle_exp2b_clean_convnext_tiny",
+  "gt": "/Users/song-gyeongchan/peachscope-data/relabel_draft/test",
+  "yolo": null,
+  "arch": "convnext_tiny",
+  "weights": "/Users/song-gyeongchan/orca/workspaces/planning/작물표현형-이미지분석-기획안/pest_model/results/exp2b_clean/convnext_tiny.pt",
+  "conf": 0.25,
+  "n_images": 223,
+  "n_gt_fruits": 152,
+  "n_pred_boxes": 152,
+  "det_recall": 1.0,
+  "det_precision": 1.0,
+  "matched_cls_macro_f1": 0.7331,
+  "matched_cls_acc": 0.8882,
+  "matched_confusion": [
+    [
+      101,
+      0,
+      0
+    ],
+    [
+      3,
+      6,
+      14
+    ],
+    [
+      0,
+      0,
+      28
+    ]
+  ],
+  "e2e": {
+    "healthy": {
+      "precision": 0.9712,
+      "recall": 1.0,
+      "f1": 0.9854
+    },
+    "shot_hole": {
+      "precision": 1.0,
+      "recall": 0.2609,
+      "f1": 0.4138
+    },
+    "brown_rot": {
+      "precision": 0.6667,
+      "recall": 1.0,
+      "f1": 0.8
+    }
+  },
+  "image_level_f1": {
+    "healthy": 0.9839,
+    "shot_hole": 0.4545,
+    "brown_rot": 0.8364
+  },
+  "e2e_macro_f1": 0.7331,
+  "image_level_macro_f1": 0.7583
+}

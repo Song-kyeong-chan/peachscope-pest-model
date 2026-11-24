@@ -1,0 +1,58 @@
+{
+  "cnn_by_source": {
+    "islamia/brown_rot": {
+      "n": 11,
+      "recall": 0.8182,
+      "pred": {
+        "brown_rot": 9,
+        "shot_hole": 1,
+        "healthy": 1
+      }
+    },
+    "islamia/healthy": {
+      "n": 72,
+      "recall": 1.0,
+      "pred": {
+        "healthy": 72
+      }
+    },
+    "zeerox/brown_rot": {
+      "n": 13,
+      "recall": 0.8462,
+      "pred": {
+        "shot_hole": 2,
+        "brown_rot": 11
+      }
+    },
+    "zeerox/healthy": {
+      "n": 360,
+      "recall": 0.9806,
+      "pred": {
+        "healthy": 353,
+        "shot_hole": 2,
+        "brown_rot": 5
+      }
+    },
+    "zeerox/shot_hole": {
+      "n": 98,
+      "recall": 0.898,
+      "pred": {
+        "shot_hole": 88,
+        "brown_rot": 7,
+        "healthy": 3
+      }
+    }
+  },
+  "source_from_tiny16": {
+    "healthy": {
+      "tiny16_source_acc": 0.963,
+      "majority_baseline": 0.8333,
+      "n_test": 432
+    },
+    "brown_rot": {
+      "tiny16_source_acc": 0.5,
+      "majority_baseline": 0.5417,
+      "n_test": 24
+    }
+  }
+}

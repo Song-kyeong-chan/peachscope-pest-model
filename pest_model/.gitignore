@@ -1,0 +1,7 @@
+.venv/
+*.pt
+__pycache__/
+results/*/weights/
+results/*/*/weights/
+results/exp2_yolo/run.log
+.pytest_cache/

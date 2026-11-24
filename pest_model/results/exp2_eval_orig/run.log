@@ -1,0 +1,30 @@
+{"name": "oracle_exp2_crops_resnet50", "det_recall": 1.0, "det_precision": 1.0, "matched_cls_macro_f1": 0.8806, "e2e_macro_f1": 0.8806, "image_level_macro_f1": 0.8979}
+  e2e: {'healthy': {'precision': 0.9861, 'recall': 0.9861, 'f1': 0.9861}, 'shot_hole': {'precision': 0.8811, 'recall': 0.9314, 'f1': 0.9056}, 'brown_rot': {'precision': 0.8136, 'recall': 0.6957, 'f1': 0.75}}
+{"name": "2stage_exp2_crops_resnet50", "det_recall": 0.7627, "det_precision": 0.598, "matched_cls_macro_f1": 0.9048, "e2e_macro_f1": 0.6309, "image_level_macro_f1": 0.8712}
+  e2e: {'healthy': {'precision': 0.5929, 'recall': 0.9306, 'f1': 0.7243}, 'shot_hole': {'precision': 0.5, 'recall': 0.6629, 'f1': 0.57}, 'brown_rot': {'precision': 0.6552, 'recall': 0.5507, 'f1': 0.5984}}
+{"name": "oracle_exp2_crops_convnext_tiny", "det_recall": 1.0, "det_precision": 1.0, "matched_cls_macro_f1": 0.9306, "e2e_macro_f1": 0.9306, "image_level_macro_f1": 0.9447}
+  e2e: {'healthy': {'precision': 0.9863, 'recall': 1.0, 'f1': 0.9931}, 'shot_hole': {'precision': 0.9282, 'recall': 0.96, 'f1': 0.9438}, 'brown_rot': {'precision': 0.9032, 'recall': 0.8116, 'f1': 0.855}}
+{"name": "2stage_exp2_crops_convnext_tiny", "det_recall": 0.7627, "det_precision": 0.598, "matched_cls_macro_f1": 0.8962, "e2e_macro_f1": 0.6239, "image_level_macro_f1": 0.8547}
+  e2e: {'healthy': {'precision': 0.5862, 'recall': 0.9444, 'f1': 0.7234}, 'shot_hole': {'precision': 0.5, 'recall': 0.6457, 'f1': 0.5636}, 'brown_rot': {'precision': 0.623, 'recall': 0.5507, 'f1': 0.5846}}
+{"name": "oracle_exp2b_clean_resnet50", "det_recall": 1.0, "det_precision": 1.0, "matched_cls_macro_f1": 0.456, "e2e_macro_f1": 0.456, "image_level_macro_f1": 0.4855}
+  e2e: {'healthy': {'precision': 0.6545, 'recall': 1.0, 'f1': 0.7912}, 'shot_hole': {'precision': 0.6316, 'recall': 0.0686, 'f1': 0.1237}, 'brown_rot': {'precision': 0.3102, 'recall': 0.8406, 'f1': 0.4531}}
+{"name": "2stage_exp2b_clean_resnet50", "det_recall": 0.7627, "det_precision": 0.598, "matched_cls_macro_f1": 0.4924, "e2e_macro_f1": 0.3347, "image_level_macro_f1": 0.4894}
+  e2e: {'healthy': {'precision': 0.4379, 'recall': 0.9306, 'f1': 0.5956}, 'shot_hole': {'precision': 0.3913, 'recall': 0.0514, 'f1': 0.0909}, 'brown_rot': {'precision': 0.207, 'recall': 0.6812, 'f1': 0.3176}}
+{"name": "oracle_exp2b_clean_convnext_tiny", "det_recall": 1.0, "det_precision": 1.0, "matched_cls_macro_f1": 0.4363, "e2e_macro_f1": 0.4363, "image_level_macro_f1": 0.454}
+  e2e: {'healthy': {'precision': 0.6923, 'recall': 1.0, 'f1': 0.8182}, 'shot_hole': {'precision': 0.4545, 'recall': 0.0286, 'f1': 0.0538}, 'brown_rot': {'precision': 0.2935, 'recall': 0.8551, 'f1': 0.437}}
+{"name": "2stage_exp2b_clean_convnext_tiny", "det_recall": 0.7627, "det_precision": 0.598, "matched_cls_macro_f1": 0.4721, "e2e_macro_f1": 0.3163, "image_level_macro_f1": 0.4601}
+  e2e: {'healthy': {'precision': 0.4359, 'recall': 0.9444, 'f1': 0.5965}, 'shot_hole': {'precision': 0.3125, 'recall': 0.0286, 'f1': 0.0524}, 'brown_rot': {'precision': 0.1948, 'recall': 0.6522, 'f1': 0.3}}
+{"name": "1stage_yolo11n_disease", "det_recall": 0.6899, "det_precision": 0.6412, "matched_cls_macro_f1": 0.9297, "e2e_macro_f1": 0.6323, "image_level_macro_f1": 0.8491}
+  e2e: {'healthy': {'precision': 0.62, 'recall': 0.8611, 'f1': 0.7209}, 'shot_hole': {'precision': 0.5819, 'recall': 0.5886, 'f1': 0.5852}, 'brown_rot': {'precision': 0.619, 'recall': 0.5652, 'f1': 0.5909}}
+| 시스템 | 탐지 재현율 | 탐지 정밀도 | 짝지은 과실 분류 macro-F1 | 끝단 macro-F1 | 끝단 F1 정상/세균/잿빛 | 사진 단위 macro-F1 | 사진 단위 잿빛 F1 |
+|---|---|---|---|---|---|---|---|
+| 1stage_yolo11n_disease | 0.6899 | 0.6412 | 0.9297 | 0.6323 | 0.7209 / 0.5852 / 0.5909 | 0.8491 | 0.7629 |
+| 2stage_exp2_crops_convnext_tiny | 0.7627 | 0.598 | 0.8962 | 0.6239 | 0.7234 / 0.5636 / 0.5846 | 0.8547 | 0.75 |
+| 2stage_exp2_crops_resnet50 | 0.7627 | 0.598 | 0.9048 | 0.6309 | 0.7243 / 0.57 / 0.5984 | 0.8712 | 0.8 |
+| 2stage_exp2b_clean_convnext_tiny | 0.7627 | 0.598 | 0.4721 | 0.3163 | 0.5965 / 0.0524 / 0.3 | 0.4601 | 0.4358 |
+| 2stage_exp2b_clean_resnet50 | 0.7627 | 0.598 | 0.4924 | 0.3347 | 0.5956 / 0.0909 / 0.3176 | 0.4894 | 0.4571 |
+| oracle_exp2_crops_convnext_tiny | 1.0 | 1.0 | 0.9306 | 0.9306 | 0.9931 / 0.9438 / 0.855 | 0.9447 | 0.9053 |
+| oracle_exp2_crops_resnet50 | 1.0 | 1.0 | 0.8806 | 0.8806 | 0.9861 / 0.9056 / 0.75 | 0.8979 | 0.8172 |
+| oracle_exp2b_clean_convnext_tiny | 1.0 | 1.0 | 0.4363 | 0.4363 | 0.8182 / 0.0538 / 0.437 | 0.454 | 0.4516 |
+| oracle_exp2b_clean_resnet50 | 1.0 | 1.0 | 0.456 | 0.456 | 0.7912 / 0.1237 / 0.4531 | 0.4855 | 0.4746 |
+

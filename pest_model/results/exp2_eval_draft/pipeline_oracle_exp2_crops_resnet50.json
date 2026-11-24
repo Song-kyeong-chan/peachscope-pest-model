@@ -1,0 +1,57 @@
+{
+  "system": "oracle",
+  "name": "oracle_exp2_crops_resnet50",
+  "gt": "/Users/song-gyeongchan/peachscope-data/relabel_draft/test",
+  "yolo": null,
+  "arch": "resnet50",
+  "weights": "/Users/song-gyeongchan/orca/workspaces/planning/작물표현형-이미지분석-기획안/pest_model/results/exp2_crops/resnet50.pt",
+  "conf": 0.25,
+  "n_images": 223,
+  "n_gt_fruits": 152,
+  "n_pred_boxes": 152,
+  "det_recall": 1.0,
+  "det_precision": 1.0,
+  "matched_cls_macro_f1": 0.7019,
+  "matched_cls_acc": 0.8289,
+  "matched_confusion": [
+    [
+      95,
+      6,
+      0
+    ],
+    [
+      1,
+      11,
+      11
+    ],
+    [
+      1,
+      7,
+      20
+    ]
+  ],
+  "e2e": {
+    "healthy": {
+      "precision": 0.9794,
+      "recall": 0.9406,
+      "f1": 0.9596
+    },
+    "shot_hole": {
+      "precision": 0.4583,
+      "recall": 0.4783,
+      "f1": 0.4681
+    },
+    "brown_rot": {
+      "precision": 0.6452,
+      "recall": 0.7143,
+      "f1": 0.678
+    }
+  },
+  "image_level_f1": {
+    "healthy": 0.95,
+    "shot_hole": 0.5405,
+    "brown_rot": 0.6809
+  },
+  "e2e_macro_f1": 0.7019,
+  "image_level_macro_f1": 0.7238
+}
