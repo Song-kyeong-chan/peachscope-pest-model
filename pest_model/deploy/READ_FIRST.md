@@ -13,10 +13,12 @@
 | `anthracnose` | 탄저병 | urgent | |
 | `damage` | 구멍·상처 (충해·노린재·열과·물리적 상처) | soon | `damage_split` |
 
-## 2. 설치 (5분)
+## 2. 설치 (5분, GitHub 로그인 필요 없음)
 ```bash
-gh repo clone Song-kyeong-chan/peachscope-pest-model && cd peachscope-pest-model
-gh release download v0.7-exp7D -p '*.pt' -D pest_model/weights      # 가중치 2개
+git clone https://github.com/Song-kyeong-chan/peachscope-pest-model.git && cd peachscope-pest-model
+mkdir -p pest_model/weights                                          # 가중치 2개 받기
+curl -L -o pest_model/weights/pest_convnext_exp7D.pt https://github.com/Song-kyeong-chan/peachscope-pest-model/releases/download/v0.7-exp7D/pest_convnext_exp7D.pt
+curl -L -o pest_model/weights/fruit_yolo11n.pt https://github.com/Song-kyeong-chan/peachscope-pest-model/releases/download/v0.7-exp7D/fruit_yolo11n.pt
 pip install -r pest_model/deploy/requirements.txt
 cd pest_model/deploy && python -m pytest -q tests                   # 7개 통과하면 정상
 python -m peach_pest 사진.jpg                                        # 사진 한 장 판정 결과(JSON)

@@ -15,10 +15,12 @@
 | `../weights/pest_convnext_exp7D.pt` | ConvNeXt-Tiny 분류기, 약 106MB | **GitHub Releases** `v0.7-exp7D` (Git 제외) |
 | `../weights/fruit_yolo11n.pt` | 과실 탐지기, 약 5MB. 서버가 과실 박스를 직접 주면 없어도 됨 | **GitHub Releases** `v0.7-exp7D` (Git 제외) |
 
-가중치 받기 (저장소 루트에서, `gh` 로그인 필요):
+가중치 받기 (저장소 루트에서, 로그인 필요 없음):
 
 ```bash
-gh release download v0.7-exp7D -R Song-kyeong-chan/peachscope-pest-model -p '*.pt' -D pest_model/weights
+mkdir -p pest_model/weights
+curl -L -o pest_model/weights/pest_convnext_exp7D.pt https://github.com/Song-kyeong-chan/peachscope-pest-model/releases/download/v0.7-exp7D/pest_convnext_exp7D.pt
+curl -L -o pest_model/weights/fruit_yolo11n.pt https://github.com/Song-kyeong-chan/peachscope-pest-model/releases/download/v0.7-exp7D/fruit_yolo11n.pt
 shasum -a 256 pest_model/weights/*.pt   # 릴리스 설명의 SHA-256과 비교
 ```
 

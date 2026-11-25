@@ -37,6 +37,6 @@
 ## 저장소에 없는 것
 
 - 모델 가중치(`pest_convnext_exp7D.pt`, `fruit_yolo11n.pt`): 용량 때문에 커밋하지 않고 [Releases `v0.7-exp7D`](https://github.com/Song-kyeong-chan/peachscope-pest-model/releases/tag/v0.7-exp7D)에 올렸다. 받아서 `pest_model/weights/`에 둔다.
-  `gh release download v0.7-exp7D -R Song-kyeong-chan/peachscope-pest-model -p '*.pt' -D pest_model/weights`
+  `curl -L -o pest_model/weights/pest_convnext_exp7D.pt https://github.com/Song-kyeong-chan/peachscope-pest-model/releases/download/v0.7-exp7D/pest_convnext_exp7D.pt` (탐지기 `fruit_yolo11n.pt`도 같은 방식)
 - 사진 데이터: `~/peachscope-data`에 두고 올리지 않는다. NCPMS 사진은 저작권 때문에 평가에만 썼다.
 - API 키(`.env`).
