@@ -12,8 +12,17 @@
 |---|---|---|
 | `peach_pest/` | 추론 코드 (base, model, guide) | 이 저장소 |
 | `../knowledge/peach_pest_guide.json` | 증상·대응·출하·대응 등급·질문 규칙 | 이 저장소 |
-| `../weights/pest_convnext_exp7D.pt` | ConvNeXt-Tiny 분류기, 약 106MB | **드라이브** (Git 제외) |
-| `../weights/fruit_yolo11n.pt` | 과실 탐지기, 약 5MB. 서버가 과실 박스를 직접 주면 없어도 됨 | **드라이브** (Git 제외) |
+| `../weights/pest_convnext_exp7D.pt` | ConvNeXt-Tiny 분류기, 약 106MB | **GitHub Releases** `v0.7-exp7D` (Git 제외) |
+| `../weights/fruit_yolo11n.pt` | 과실 탐지기, 약 5MB. 서버가 과실 박스를 직접 주면 없어도 됨 | **GitHub Releases** `v0.7-exp7D` (Git 제외) |
+
+가중치 받기 (저장소 루트에서, `gh` 로그인 필요):
+
+```bash
+gh release download v0.7-exp7D -R Song-kyeong-chan/peachscope-pest-model -p '*.pt' -D pest_model/weights
+shasum -a 256 pest_model/weights/*.pt   # 릴리스 설명의 SHA-256과 비교
+```
+
+웹에서는 저장소의 Releases → `v0.7-exp7D`에서 두 파일을 받아 `pest_model/weights/`에 둔다.
 
 ## 2. 설치와 확인
 

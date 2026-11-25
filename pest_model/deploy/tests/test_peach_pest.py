@@ -9,7 +9,7 @@ from peach_pest import CLASSES, ConvNeXtPestModel, InvalidImageError
 
 ROOT = Path(__file__).resolve().parents[2]
 W = ROOT / "weights/pest_convnext_exp7D.pt"
-pytestmark = pytest.mark.skipif(not W.exists(), reason="가중치 파일이 없음 (드라이브에서 받아 weights/에 두기)")
+pytestmark = pytest.mark.skipif(not W.exists(), reason="가중치 파일이 없음 (GitHub Releases v0.7-exp7D에서 받아 weights/에 두기)")
 
 
 @pytest.fixture(scope="module")

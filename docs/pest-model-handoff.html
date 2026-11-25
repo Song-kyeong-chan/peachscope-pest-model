@@ -190,7 +190,7 @@ pest = pest_model.predict(image_bytes, boxes=None)  # boxes: 원본 픽셀 [(x1,
         <tr><td>모델</td><td>ConvNeXt-Tiny 분류기 (ImageNet 사전학습 → 미세조정), 288px 입력. 실험 7 D, 버전 <code>pest-exp7D-convnext-2026-11-25</code></td></tr>
         <tr><td>출력 클래스 순서</td><td><code>0 healthy</code> · <code>1 spot</code> · <code>2 rot</code> · <code>3 anthracnose</code> · <code>4 damage</code></td></tr>
         <tr><td>연동 코드</td><td><code>pest_model/deploy/peach_pest/</code> (전처리 포함), 테스트 <code>deploy/tests/</code>, 의존성 <code>deploy/requirements.txt</code></td></tr>
-        <tr><td>가중치</td><td><code>pest_convnext_exp7D.pt</code> (약 106MB), 과실 탐지기 <code>fruit_yolo11n.pt</code> (약 5MB). 용량 때문에 Git에 없고 드라이브로 따로 전달합니다</td></tr>
+        <tr><td>가중치</td><td><code>pest_convnext_exp7D.pt</code> (약 106MB), 과실 탐지기 <code>fruit_yolo11n.pt</code> (약 5MB). 용량 때문에 Git 커밋에는 없고 <a href="https://github.com/Song-kyeong-chan/peachscope-pest-model/releases/tag/v0.7-exp7D">GitHub Releases <code>v0.7-exp7D</code></a>에 올렸습니다. 받아서 <code>pest_model/weights/</code>에 두면 됩니다</td></tr>
         <tr><td>대응방안 데이터</td><td><code>pest_model/knowledge/peach_pest_guide.json</code> v0.6.0: 증상, 헷갈리는 병, 지금 할 일, 예방, 방제 시기, 출하 판단, 대응 등급, 질문 규칙, 그룹(부패병·반점병·구멍·상처)</td></tr>
         <tr><td>학습·평가 코드</td><td><code>pest_model/</code>의 <code>build_exp7.py</code>(라벨), <code>train_exp7.py</code>(학습), <code>rescore_test2.py</code>(test 재채점), <code>pick_threshold.py</code>(판별 불가 기준)</td></tr>
         <tr><td>실행 환경</td><td>Python 3.12, torch, timm (탐지기를 쓰면 ultralytics). CPU에서 과실 하나에 약 0.27초. 서버 이미지 용량이 문제면 ONNX 변환본을 준비합니다</td></tr>
