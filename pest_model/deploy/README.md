@@ -2,8 +2,9 @@
 
 봉지를 벗긴 미홍 과실 사진을 받아 과실마다 병해충을 판정하고, 대응방안 JSON(`pest_model/knowledge/peach_pest_guide.json`)의 항목과 대응 등급을 붙여 돌려준다. 서버 `quality/base.py`의 `QualityModel`과 같은 Protocol 방식이다.
 
-- 모델 버전: `pest-exp4-convnext-2026-11-23` (실험 4, 팀 검수 전 임시 라벨로 학습)
-- 대응방안 JSON: v0.4.0
+- 모델 버전: `pest-exp7D-convnext-2026-11-25` (실험 7 D: 재분류 v2 라벨, 5클래스, 지식 스무딩 손실 + 증상 증강)
+- 대응방안 JSON: v0.6.0
+- 실험 4 가중치(6클래스)에서 바뀐 점: 클래스가 `healthy`, `spot`, `rot`, `anthracnose`, `damage` 5개가 됐다. 인터페이스(입력·출력 형식)는 그대로다.
 
 ## 1. 파일
 
@@ -11,7 +12,7 @@
 |---|---|---|
 | `peach_pest/` | 추론 코드 (base, model, guide) | 이 저장소 |
 | `../knowledge/peach_pest_guide.json` | 증상·대응·출하·대응 등급·질문 규칙 | 이 저장소 |
-| `../weights/pest_convnext_exp4.pt` | ConvNeXt-Tiny 분류기, 약 106MB | **드라이브** (Git 제외) |
+| `../weights/pest_convnext_exp7D.pt` | ConvNeXt-Tiny 분류기, 약 106MB | **드라이브** (Git 제외) |
 | `../weights/fruit_yolo11n.pt` | 과실 탐지기, 약 5MB. 서버가 과실 박스를 직접 주면 없어도 됨 | **드라이브** (Git 제외) |
 
 ## 2. 설치와 확인
@@ -20,7 +21,7 @@
 pip install -r pest_model/deploy/requirements.txt
 cd pest_model/deploy
 python -m peach_pest 사진.jpg          # 결과 JSON 출력
-python -m pytest -q tests              # 가중치가 있으면 6개 통과
+python -m pytest -q tests              # 가중치가 있으면 7개 통과
 ```
 
 ## 3. 서버에 붙이기 (예시, `server/api/app/main.py`)
@@ -29,7 +30,7 @@ python -m pytest -q tests              # 가중치가 있으면 6개 통과
 from peach_pest import ConvNeXtPestModel, InvalidImageError as PestImageError
 
 P = Path("/models")  # 가중치와 JSON을 둔 곳
-pest_model = ConvNeXtPestModel(P / "pest_convnext_exp4.pt", P / "peach_pest_guide.json",
+pest_model = ConvNeXtPestModel(P / "pest_convnext_exp7D.pt", P / "peach_pest_guide.json",
                                detector=P / "fruit_yolo11n.pt")   # 공통 탐지기 박스를 쓰면 detector 생략
 
 @app.post("/analyze")
@@ -50,13 +51,13 @@ async def analyze(...):
 ```json
 {
   "fruits": [
-    {"box": [182.0, 459.8, 285.5, 637.0], "label": "brown_rot", "confidence": 0.99,
-     "probs": {"healthy": 0.0, "spot": 0.003, "brown_rot": 0.993, "anthracnose": 0.0, "insect_damage": 0.004, "others": 0.0},
-     "uncertain": false, "guide_id": "brown_rot", "guide_type": "entry", "tier": "urgent",
-     "questions": [], "box_source": "detector"}
+    {"box": [225.8, 390.4, 296.9, 460.6], "label": "damage", "confidence": 0.676,
+     "probs": {"healthy": 0.004, "spot": 0.287, "rot": 0.025, "anthracnose": 0.007, "damage": 0.676},
+     "uncertain": false, "guide_id": "damage", "guide_type": "group", "tier": "soon",
+     "questions": ["damage_split"], "box_source": "detector"}
   ],
-  "summary": "brown_rot", "summary_guide_id": "brown_rot", "summary_tier": "urgent",
-  "model_version": "pest-exp4-convnext-2026-11-23",
+  "summary": "damage", "summary_guide_id": "damage", "summary_tier": "soon",
+  "model_version": "pest-exp7D-convnext-2026-11-25",
   "status": "ok", "message": "", "skipped_boxes": 0
 }
 ```
@@ -66,15 +67,15 @@ async def analyze(...):
 ```json
 {"fruits": [], "summary": "no_fruit", "summary_guide_id": "", "summary_tier": "none",
  "status": "no_fruit", "message": "사진에서 과실을 찾지 못했습니다. 봉지를 벗긴 과실 하나가 화면을 크게 채우도록 밝은 곳에서 다시 찍어 주세요.",
- "skipped_boxes": 1, "model_version": "pest-exp4-convnext-2026-11-23"}
+ "skipped_boxes": 1, "model_version": "pest-exp7D-convnext-2026-11-25"}
 ```
 
 | 필드 | 뜻 | 앱에서 쓰는 법 |
 |---|---|---|
-| `label` | 모델 클래스: `healthy`, `spot`(반점병: 세균구멍병·검은별무늬병), `brown_rot`, `anthracnose`, `insect_damage`, `others`(그 밖의 부패) | 내부 값 |
-| `guide_id` + `guide_type` | `entry`면 JSON `entries`, `group`이면 `display_groups`(`rot` 부패병, `spot` 반점병)의 항목 | 결과 화면 문구, 대응, 출하 판단 |
+| `label` | 모델 클래스: `healthy`(정상), `spot`(반점병: 세균구멍병·검은별무늬병), `rot`(부패병: 잿빛무늬병·잿빛곰팡이병·그 밖의 부패), `anthracnose`(탄저병), `damage`(구멍·상처: 충해·노린재·열과·물리적 상처) | 내부 값 |
+| `guide_id` + `guide_type` | `entry`면 JSON `entries`, `group`이면 `display_groups`(`rot` 부패병, `spot` 반점병, `damage` 구멍·상처)의 항목 | 결과 화면 문구, 대응, 출하 판단 |
 | `tier` | `urgent`(지금 바로) · `soon`(이번 주 안에) · `next_season`(올해는 선별, 내년 예방) · `none` | 색과 순서. 문구는 JSON `common.response_tiers` |
-| `questions` | 물어볼 질문 규칙 id (`spot_split`, `spot_vs_insect`) | JSON `disambiguation`에서 질문과 답별 결과를 읽어 화면에 띄움 |
+| `questions` | 물어볼 질문 규칙 id (`spot_split`, `damage_split`, `spot_vs_damage`) | JSON `disambiguation`에서 질문과 답별 결과를 읽어 화면에 띄움 |
 | `uncertain` | 확신도가 0.5 미만 | `unknown` 항목("판별 불가, 다시 찍기 안내")을 보여 줌 |
 | `summary*` | 사진 전체에서 가장 급한 병해 | 첫 화면 한 줄 |
 | `status`, `message` | `ok` 또는 `no_fruit`(과실을 찾지 못함) | `no_fruit`면 병해 결과 대신 `message`(다시 찍기 안내)를 보여 줌 |
@@ -100,19 +101,23 @@ async def analyze(...):
 
 **남은 위험**: 잎, 땅, 다른 과일처럼 무늬가 있는 사진은 탐지기가 과실로 잡으면 그대로 판정된다. 품질 팀 탐지기 박스를 쓰거나, 미홍 사진으로 탐지기를 확인·보강해야 한다.
 
-## 7. 성능과 한계 (농촌진흥청 NCPMS 공식 과실 사진 91장, 외부 평가)
+## 7. 성능과 한계 (실험 7 D)
 
-| 항목 | 결과 |
-|---|---|
-| 이상 검출 (병든 과실을 정상이 아니라고 판정) | 85/91 (93%) |
-| 부패병 그룹 (잿빛무늬병·탄저병·잿빛곰팡이병) | 49/61 (80%) |
-| 잿빛무늬병 | 25/31 |
-| 반점병 (세균구멍병 5/5, 검은별무늬병 6/12) | 11/17 |
-| 탄저병 | 7/19 (틀린 것 중 7장은 잿빛무늬병으로 판정 → 같은 부패병 그룹) |
-| 충해과 | 3/8 |
-| 병명 정답 (6클래스) | 48/91 |
+외부 평가 두 가지로 확인했다. 학습에 쓰지 않은 사진이다.
 
-- 정상 미홍 사진이 없어 **오경보율(정상을 병으로 판정하는 비율)은 아직 모른다.**
-- 학습하지 않은 병해충(노린재, 바이로이드 등)도 6클래스 중 하나로 판정될 수 있다.
-- 틀린 판정도 확신도가 평균 0.83으로 높아서, 확신도만으로는 오답을 거르기 어렵다. 결과는 항상 "의심"으로 표시하고 농업기술센터 문의 안내를 함께 둔다.
-- `uncertain` 기준 0.5는 임시값이다. 팀 검수 뒤 재학습할 때 검증 데이터로 다시 정한다. 가중치를 바꿔도 이 인터페이스는 그대로 둔다.
+| 항목 | NCPMS (농촌진흥청 공식 과실 사진 89장) | test2 v2 (팀 검수 test 정답지 288개) |
+|---|---|---|
+| 병명 정답 (5클래스) | 72/89 (81%) | 225/288 (78%) |
+| 반점병 | 16/17 | 20/26 |
+| 부패병 | 34/42 | 55/81 |
+| 탄저병 | 15/19 | 6/15 |
+| 구멍·상처 | 7/11 | 30/41 |
+| 정상 유지 | (NCPMS에 정상 없음) | 114/125 |
+| 이상 검출 (병든 과실을 정상이 아니라고 판정) | 87/89 | 160/163 |
+
+- `uncertain` 기준 0.5: NCPMS 89장 중 77장(87%)을 판정하고 12장은 "판별 불가"로 돌린다. 판정한 것의 정답률은 85.7%다(기준이 없으면 80.9%).
+- 실험 4 가중치보다 틀린 답의 확신도가 낮다(평균 0.62, 실험 4는 0.83). 그래서 확신도 기준이 오답을 더 잘 거른다.
+- 탄저병은 test2에서 15개 중 6개만 맞혔다. 대부분 부패병으로 판정했고, 둘 다 `urgent` 등급이라 대응은 같다.
+- 정상 미홍 사진이 없어 **미홍 기준 오경보율은 아직 모른다.** test2의 정상 과실(다른 품종)은 125개 중 114개를 정상으로 유지했다.
+- 학습하지 않은 병해충(바이로이드, 난괴 등)도 5클래스 중 하나로 판정될 수 있다. 결과는 항상 "의심"으로 표시하고 농업기술센터 문의 안내를 함께 둔다.
+- 후보 모델: CLIP 미세조정 모델은 test2 v2에서 237/288로 더 높지만 NCPMS에서는 68/89로 낮다. 크기도 4배다. 지금은 D를 쓰고, seed 반복 뒤 다시 고른다. 가중치를 바꿔도 이 인터페이스는 그대로 둔다.

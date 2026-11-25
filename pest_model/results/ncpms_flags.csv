@@ -1,0 +1,13 @@
+file,flag,note
+test/others/nc_D00004188_04.jpg,early,"갈색 원형 병반만, 곰팡이 없음"
+test/others/nc_D00004188_13.jpg,early,작은 갈색 점 1~2개
+test/others/nc_D00004188_14.jpg,early,작은 갈색 점 2개
+test/brown_rot/nc_D00004189_38.jpg,early,작은 갈색 점 1개
+test/others/nc_D00004192_00.jpg,early,작은 점 몇 개
+test/others/nc_D00004192_16.jpg,early,작은 점 몇 개
+test/others/nc_D00004192_17.jpg,early,작은 점 1개
+test/others/nc_D00004336_00.jpg,unjudgeable,과실 증상이 거의 안 보임(바이로이드)
+test/others/nc_H00000646_00.jpg,unjudgeable,"아주 작은 크롭, 알덩이"
+test/insect_damage/nc_H00000464_02.jpg,unjudgeable,과실이 아니라 유충 사진
+test/insect_damage/nc_H00000477_01.jpg,unjudgeable,과실이 아니라 새순 사진
+test/insect_damage/nc_H00000477_13.jpg,unjudgeable,아주 작은 크롭

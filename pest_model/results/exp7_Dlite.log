@@ -1,0 +1,10 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+device mps; model convnext_tiny loss ksmooth aug symptom_lite zeroshot False; train 2963 val 653 ncpms 89 test2 351
+[exp7_Dlite] ep01 loss 1.058 val macroF1 0.735 (194s)
+[exp7_Dlite] ep02 loss 0.718 val macroF1 0.772 (206s)
+[exp7_Dlite] ep03 loss 0.573 val macroF1 0.804 (198s)
+[exp7_Dlite] ep04 loss 0.532 val macroF1 0.794 (199s)
+[exp7_Dlite] ep05 loss 0.489 val macroF1 0.876 (197s)
+[exp7_Dlite] ep06 loss 0.467 val macroF1 0.861 (205s)
+[exp7_Dlite] ep07 loss 0.448 val macroF1 0.899 (205s)
+[exp7_Dlite] ep08 loss 0.441 val macroF1 0.888 (199s)

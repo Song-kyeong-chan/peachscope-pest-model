@@ -8,6 +8,9 @@
 from pathlib import Path
 
 CLASSES4 = ["healthy", "spot", "brown_rot", "anthracnose", "insect_damage", "others"]
+# 실험 6 (2026-11-24 사용자 결정): 잿빛무늬병과 수확 후 곰팡이 부패(others, 대부분 잿빛곰팡이병 모양)를 rot 하나로 묶는다.
+CLASSES5 = ["healthy", "spot", "rot", "anthracnose", "insect_damage"]
+TO5 = {"brown_rot": "rot", "others": "rot"}
 KO4 = {"healthy": "정상", "spot": "반점병", "brown_rot": "잿빛무늬병", "anthracnose": "탄저병",
        "insect_damage": "충해과", "others": "기타"}
 NCPMS4 = {"brown_rot": "brown_rot", "shot_hole": "spot", "scab": "spot", "anthracnose": "anthracnose",
@@ -52,3 +55,9 @@ def rough_label(r, ant):
         m = model4(r["model"])
         return to4("others", r["file"], ant) if m == "others" else m
     return prop
+
+
+# 실험 7 (2026-11-25 사용자 결정): 충해과를 '구멍·상처'(damage)로 넓힌다.
+# 사진만으로는 충해 초기, 노린재 흡즙 자국, 열과(갈라짐), 우박·새·긁힘을 가를 수 없어서 하나로 묶고 앱 질문으로 나눈다.
+CLASSES7 = ["healthy", "spot", "rot", "anthracnose", "damage"]
+TO7 = {"brown_rot": "rot", "others": "rot", "insect_damage": "damage"}

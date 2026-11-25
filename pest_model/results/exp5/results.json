@@ -1,0 +1,160 @@
+{
+  "labels": "results/exp5/labels.csv",
+  "loss": "ce_w",
+  "gamma": 2.0,
+  "patience": 5,
+  "min_epochs": 8,
+  "best_epoch": 10,
+  "epochs_run": 15,
+  "train_min": 54.9,
+  "val_macro_f1": 0.8258,
+  "val_f1_per_class": {
+    "healthy": 0.9947,
+    "spot": 0.9395,
+    "brown_rot": 0.8904,
+    "anthracnose": 0.4348,
+    "insect_damage": 0.8205,
+    "others": 0.875
+  },
+  "ncpms": {
+    "correct": 54,
+    "n": 91,
+    "anomaly_detected": 88,
+    "per_class": {
+      "spot": "12/17",
+      "brown_rot": "25/31",
+      "anthracnose": "13/19",
+      "insect_damage": "3/8",
+      "others": "1/16"
+    },
+    "rot_group": "53/61",
+    "nonrot_as_rot": "8/30",
+    "confusion": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        12,
+        0,
+        0,
+        2,
+        2
+      ],
+      [
+        0,
+        1,
+        25,
+        0,
+        3,
+        2
+      ],
+      [
+        0,
+        1,
+        4,
+        13,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        3,
+        0,
+        3,
+        2
+      ],
+      [
+        2,
+        0,
+        9,
+        0,
+        4,
+        1
+      ]
+    ]
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 1.0699,
+      "val_macro_f1": 0.6423
+    },
+    {
+      "epoch": 2,
+      "loss": 0.549,
+      "val_macro_f1": 0.6032
+    },
+    {
+      "epoch": 3,
+      "loss": 0.2964,
+      "val_macro_f1": 0.6986
+    },
+    {
+      "epoch": 4,
+      "loss": 0.1754,
+      "val_macro_f1": 0.7371
+    },
+    {
+      "epoch": 5,
+      "loss": 0.1472,
+      "val_macro_f1": 0.7503
+    },
+    {
+      "epoch": 6,
+      "loss": 0.0561,
+      "val_macro_f1": 0.785
+    },
+    {
+      "epoch": 7,
+      "loss": 0.0284,
+      "val_macro_f1": 0.7886
+    },
+    {
+      "epoch": 8,
+      "loss": 0.0115,
+      "val_macro_f1": 0.8182
+    },
+    {
+      "epoch": 9,
+      "loss": 0.0032,
+      "val_macro_f1": 0.82
+    },
+    {
+      "epoch": 10,
+      "loss": 0.0017,
+      "val_macro_f1": 0.8258
+    },
+    {
+      "epoch": 11,
+      "loss": 0.0013,
+      "val_macro_f1": 0.8147
+    },
+    {
+      "epoch": 12,
+      "loss": 0.0011,
+      "val_macro_f1": 0.8147
+    },
+    {
+      "epoch": 13,
+      "loss": 0.0011,
+      "val_macro_f1": 0.8147
+    },
+    {
+      "epoch": 14,
+      "loss": 0.0011,
+      "val_macro_f1": 0.8147
+    },
+    {
+      "epoch": 15,
+      "loss": 0.001,
+      "val_macro_f1": 0.8147
+    }
+  ]
+}

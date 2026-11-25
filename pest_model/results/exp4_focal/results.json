@@ -1,0 +1,107 @@
+{
+  "loss": "focal",
+  "gamma": 2.0,
+  "best_epoch": 2,
+  "epochs_run": 5,
+  "train_min": 17.9,
+  "val_macro_f1": 0.8468,
+  "val_f1_per_class": {
+    "healthy": 0.9774,
+    "spot": 0.9366,
+    "brown_rot": 0.8,
+    "anthracnose": 0.8333,
+    "insect_damage": 0.7333,
+    "others": 0.8
+  },
+  "ncpms": {
+    "correct": 43,
+    "n": 91,
+    "anomaly_detected": 83,
+    "per_class": {
+      "spot": "11/17",
+      "brown_rot": "24/31",
+      "anthracnose": "5/19",
+      "insect_damage": "3/8",
+      "others": "0/16"
+    },
+    "rot_group": "48/61",
+    "nonrot_as_rot": "9/30",
+    "confusion": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        11,
+        3,
+        1,
+        2,
+        0
+      ],
+      [
+        3,
+        1,
+        24,
+        1,
+        2,
+        0
+      ],
+      [
+        1,
+        4,
+        8,
+        5,
+        1,
+        0
+      ],
+      [
+        1,
+        0,
+        4,
+        0,
+        3,
+        0
+      ],
+      [
+        3,
+        0,
+        11,
+        0,
+        2,
+        0
+      ]
+    ]
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 0.2159,
+      "val_macro_f1": 0.7687
+    },
+    {
+      "epoch": 2,
+      "loss": 0.0661,
+      "val_macro_f1": 0.8468
+    },
+    {
+      "epoch": 3,
+      "loss": 0.0307,
+      "val_macro_f1": 0.7949
+    },
+    {
+      "epoch": 4,
+      "loss": 0.0116,
+      "val_macro_f1": 0.709
+    },
+    {
+      "epoch": 5,
+      "loss": 0.0164,
+      "val_macro_f1": 0.8014
+    }
+  ]
+}

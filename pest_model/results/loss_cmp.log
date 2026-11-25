@@ -1,0 +1,21 @@
+device mps; train 3321 val 722 ncpms 91
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+loss focal_w gamma 2.0
+[exp4] ep01 loss 0.660 val macroF1 0.601 (214s)
+[exp4] ep02 loss 0.242 val macroF1 0.854 (213s)
+[exp4] ep03 loss 0.151 val macroF1 0.699 (217s)
+[exp4] ep04 loss 0.066 val macroF1 0.783 (220s)
+[exp4] ep05 loss 0.028 val macroF1 0.840 (215s)
+[exp4] early stop (best ep2)
+{"loss": "focal_w", "gamma": 2.0, "best_epoch": 2, "epochs_run": 5, "train_min": 18.2, "val_macro_f1": 0.8539, "val_f1_per_class": {"healthy": 0.9794, "spot": 0.9159, "brown_rot": 0.8537, "anthracnose": 0.6154, "insect_damage": 0.8182, "others": 0.9412}, "ncpms": {"correct": 44, "n": 91, "anomaly_detected": 86, "per_class": {"spot": "10/17", "brown_rot": "21/31", "anthracnose": "9/19", "insect_damage": "4/8", "others": "0/16"}, "rot_group": "45/61", "nonrot_as_rot": "8/30", "confusion": [[0, 0, 0, 0, 0, 0], [0, 10, 4, 0, 3, 0], [1, 1, 21, 0, 5, 3], [1, 4, 3, 9, 2, 0], [0, 1, 2, 0, 4, 1], [3, 0, 10, 0, 3, 0]]}}
+saved results/exp4_focal_w/results.json
+device mps; train 3321 val 722 ncpms 91
+loss focal gamma 2.0
+[exp4] ep01 loss 0.216 val macroF1 0.769 (211s)
+[exp4] ep02 loss 0.066 val macroF1 0.847 (212s)
+[exp4] ep03 loss 0.031 val macroF1 0.795 (216s)
+[exp4] ep04 loss 0.012 val macroF1 0.709 (211s)
+[exp4] ep05 loss 0.016 val macroF1 0.801 (213s)
+[exp4] early stop (best ep2)
+{"loss": "focal", "gamma": 2.0, "best_epoch": 2, "epochs_run": 5, "train_min": 17.9, "val_macro_f1": 0.8468, "val_f1_per_class": {"healthy": 0.9774, "spot": 0.9366, "brown_rot": 0.8, "anthracnose": 0.8333, "insect_damage": 0.7333, "others": 0.8}, "ncpms": {"correct": 43, "n": 91, "anomaly_detected": 83, "per_class": {"spot": "11/17", "brown_rot": "24/31", "anthracnose": "5/19", "insect_damage": "3/8", "others": "0/16"}, "rot_group": "48/61", "nonrot_as_rot": "9/30", "confusion": [[0, 0, 0, 0, 0, 0], [0, 11, 3, 1, 2, 0], [3, 1, 24, 1, 2, 0], [1, 4, 8, 5, 1, 0], [1, 0, 4, 0, 3, 0], [3, 0, 11, 0, 2, 0]]}}
+saved results/exp4_focal/results.json

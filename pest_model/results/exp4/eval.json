@@ -1,0 +1,58 @@
+{
+  "ncpms_all": {
+    "n": 91,
+    "correct": 48,
+    "anomaly": 85,
+    "rot_group": "49/61",
+    "per_class": {
+      "anthracnose": "7/19",
+      "brown_rot": "25/31",
+      "insect_damage": "3/8",
+      "others": "2/16",
+      "spot": "11/17"
+    }
+  },
+  "ncpms_clean": {
+    "n": 79,
+    "correct": 48,
+    "anomaly": 77,
+    "rot_group": "48/54",
+    "per_class": {
+      "anthracnose": "7/16",
+      "brown_rot": "25/30",
+      "insect_damage": "3/5",
+      "others": "2/11",
+      "spot": "11/17"
+    }
+  },
+  "test_relabel": {
+    "n": 351,
+    "correct": 166,
+    "per_class": {
+      "anthracnose": "4/13",
+      "brown_rot": "43/60",
+      "healthy": "101/106",
+      "others": "4/149",
+      "spot": "14/23"
+    },
+    "anomaly_recall": "227/245",
+    "healthy_kept": "101/106",
+    "confusion": {
+      "others->insect_damage": 72,
+      "others->brown_rot": 53,
+      "others->healthy": 16,
+      "brown_rot->insect_damage": 13,
+      "anthracnose->others": 6,
+      "healthy->insect_damage": 5,
+      "spot->brown_rot": 5,
+      "spot->insect_damage": 4,
+      "others->spot": 2,
+      "brown_rot->others": 2,
+      "anthracnose->healthy": 2,
+      "others->anthracnose": 2,
+      "brown_rot->anthracnose": 1,
+      "anthracnose->spot": 1,
+      "brown_rot->spot": 1
+    }
+  }
+}

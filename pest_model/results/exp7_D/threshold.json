@@ -1,0 +1,66 @@
+{
+  "val": {
+    "0.0": {
+      "judged": "653/653",
+      "judged_pct": 100.0,
+      "acc_judged": 98.0
+    },
+    "0.3": {
+      "judged": "653/653",
+      "judged_pct": 100.0,
+      "acc_judged": 98.0
+    },
+    "0.4": {
+      "judged": "652/653",
+      "judged_pct": 99.8,
+      "acc_judged": 98.0
+    },
+    "0.5": {
+      "judged": "649/653",
+      "judged_pct": 99.4,
+      "acc_judged": 98.0
+    },
+    "0.6": {
+      "judged": "638/653",
+      "judged_pct": 97.7,
+      "acc_judged": 98.3
+    },
+    "0.7": {
+      "judged": "623/653",
+      "judged_pct": 95.4,
+      "acc_judged": 98.6
+    }
+  },
+  "test": {
+    "0.0": {
+      "judged": "89/89",
+      "judged_pct": 100.0,
+      "acc_judged": 80.9
+    },
+    "0.3": {
+      "judged": "89/89",
+      "judged_pct": 100.0,
+      "acc_judged": 80.9
+    },
+    "0.4": {
+      "judged": "86/89",
+      "judged_pct": 96.6,
+      "acc_judged": 81.4
+    },
+    "0.5": {
+      "judged": "77/89",
+      "judged_pct": 86.5,
+      "acc_judged": 85.7
+    },
+    "0.6": {
+      "judged": "70/89",
+      "judged_pct": 78.7,
+      "acc_judged": 87.1
+    },
+    "0.7": {
+      "judged": "60/89",
+      "judged_pct": 67.4,
+      "acc_judged": 93.3
+    }
+  }
+}

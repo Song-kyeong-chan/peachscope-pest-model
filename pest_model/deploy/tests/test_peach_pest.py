@@ -8,7 +8,7 @@ from PIL import Image
 from peach_pest import CLASSES, ConvNeXtPestModel, InvalidImageError
 
 ROOT = Path(__file__).resolve().parents[2]
-W = ROOT / "weights/pest_convnext_exp4.pt"
+W = ROOT / "weights/pest_convnext_exp7D.pt"
 pytestmark = pytest.mark.skipif(not W.exists(), reason="가중치 파일이 없음 (드라이브에서 받아 weights/에 두기)")
 
 
@@ -60,4 +60,13 @@ def test_guide_mapping(model):
     assert g.resolve("others")[:2] == ("rot", "group")
     assert g.resolve("spot")[:2] == ("spot", "group")
     assert g.resolve("brown_rot")[2] == "urgent"
-    assert g.questions_for({"spot": 0.5, "insect_damage": 0.4, "healthy": 0.1}) == ["spot_split", "spot_vs_insect"]
+    assert g.questions_for({"spot": 0.5, "insect_damage": 0.4, "healthy": 0.1}) == ["spot_split", "spot_vs_damage"]
+    assert g.resolve("insect_damage")[:2] == ("damage", "group")
+
+
+def test_exp7_classes(model):
+    g = model.guide
+    assert CLASSES == ["healthy", "spot", "rot", "anthracnose", "damage"]
+    assert g.resolve("rot")[:2] == ("rot", "group") and g.resolve("rot")[2] == "urgent"
+    assert g.resolve("damage")[:2] == ("damage", "group")
+    assert g.questions_for({"damage": 0.7, "spot": 0.2, "rot": 0.1}) == ["damage_split"]

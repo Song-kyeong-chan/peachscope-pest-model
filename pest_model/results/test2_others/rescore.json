@@ -1,0 +1,111 @@
+{
+  "exp7_base": {
+    "correct": 211,
+    "n": 288,
+    "per_class": {
+      "healthy": "111/125",
+      "spot": "17/26",
+      "rot": "47/81",
+      "anthracnose": "5/15",
+      "damage": "31/41"
+    },
+    "anomaly": "158/163",
+    "healthy_kept": "111/125",
+    "others_only": "58/86"
+  },
+  "exp7_ks": {
+    "correct": 228,
+    "n": 288,
+    "per_class": {
+      "healthy": "113/125",
+      "spot": "21/26",
+      "rot": "58/81",
+      "anthracnose": "6/15",
+      "damage": "30/41"
+    },
+    "anomaly": "160/163",
+    "healthy_kept": "113/125",
+    "others_only": "61/86",
+    "mcnemar_vs_exp7_base": {
+      "only_base": 4,
+      "only_this": 21,
+      "p": 0.0009
+    }
+  },
+  "exp7_aug": {
+    "correct": 227,
+    "n": 288,
+    "per_class": {
+      "healthy": "117/125",
+      "spot": "19/26",
+      "rot": "56/81",
+      "anthracnose": "6/15",
+      "damage": "29/41"
+    },
+    "anomaly": "157/163",
+    "healthy_kept": "117/125",
+    "others_only": "63/86",
+    "mcnemar_vs_exp7_base": {
+      "only_base": 7,
+      "only_this": 23,
+      "p": 0.0052
+    }
+  },
+  "exp7_D": {
+    "correct": 225,
+    "n": 288,
+    "per_class": {
+      "healthy": "114/125",
+      "spot": "20/26",
+      "rot": "55/81",
+      "anthracnose": "6/15",
+      "damage": "30/41"
+    },
+    "anomaly": "160/163",
+    "healthy_kept": "114/125",
+    "others_only": "62/86",
+    "mcnemar_vs_exp7_base": {
+      "only_base": 5,
+      "only_this": 19,
+      "p": 0.0066
+    }
+  },
+  "exp7_clip_ft": {
+    "correct": 237,
+    "n": 288,
+    "per_class": {
+      "healthy": "117/125",
+      "spot": "20/26",
+      "rot": "61/81",
+      "anthracnose": "6/15",
+      "damage": "33/41"
+    },
+    "anomaly": "158/163",
+    "healthy_kept": "117/125",
+    "others_only": "69/86",
+    "mcnemar_vs_exp7_base": {
+      "only_base": 4,
+      "only_this": 30,
+      "p": 0.0
+    }
+  },
+  "exp7_small": {
+    "correct": 223,
+    "n": 288,
+    "per_class": {
+      "healthy": "117/125",
+      "spot": "18/26",
+      "rot": "56/81",
+      "anthracnose": "6/15",
+      "damage": "26/41"
+    },
+    "anomaly": "155/163",
+    "healthy_kept": "117/125",
+    "others_only": "59/86",
+    "mcnemar_vs_exp7_base": {
+      "only_base": 10,
+      "only_this": 22,
+      "p": 0.0501
+    }
+  }
+}

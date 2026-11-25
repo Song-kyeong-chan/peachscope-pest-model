@@ -1,0 +1,6 @@
+== eval exp5
+results/exp5 {"ncpms_all": {"n": 91, "correct": 54, "anomaly": 88, "rot_group": "53/61", "per_class": {"anthracnose": "13/19", "brown_rot": "25/31", "insect_damage": "3/8", "others": "1/16", "spot": "12/17"}}, "ncpms_clean": {"n": 79, "correct": 52, "anomaly": 77, "rot_group": "51/54", "per_class": {"anthracnose": "12/16", "brown_rot": "25/30", "insect_damage": "2/5", "others": "1/11", "spot": "12/17"}}, "test_relabel": {"n": 351, "correct": 167, "per_class": {"anthracnose": "3/13", "brown_rot": "46/60", "healthy": "101/106", "others": "2/149", "spot": "15/23"}, "anomaly_recall": "223/245", "healthy_kept": "101/106", "confusion": {"others->brown_rot": 64, "others->insect_damage": 50, "others->healthy": 22, "brown_rot->insect_damage": 11, "others->spot": 9, "anthracnose->others": 5, "healthy->insect_damage": 4, "spot->brown_rot": 4, "spot->insect_damage": 3, "anthracnose->brown_rot": 3, "brown_rot->anthracnose": 2, "anthracnose->spot": 2, "others->anthracnose": 2, "spot->anthracnose": 1, "healthy->brown_rot": 1, "brown_rot->spot": 1}}}
+== train exp6
+device mps; train 3081 val 694 ncpms 86
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+loss ce_w gamma 2.0

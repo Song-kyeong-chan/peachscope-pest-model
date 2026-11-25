@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[2]  # pest_model/
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("image")
-    ap.add_argument("--weights", default=str(ROOT / "weights/pest_convnext_exp4.pt"))
+    ap.add_argument("--weights", default=str(ROOT / "weights/pest_convnext_exp7D.pt"))
     ap.add_argument("--detector", default=str(ROOT / "weights/fruit_yolo11n.pt"), help="빈 문자열이면 탐지기 없이 사진 전체를 한 과실로 본다")
     ap.add_argument("--whole", action="store_true", help="탐지기 없이 사진 전체를 한 과실로 판정 (테스트용)")
     ap.add_argument("--guide", default=str(ROOT / "knowledge/peach_pest_guide.json"))

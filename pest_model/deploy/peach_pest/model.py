@@ -1,4 +1,6 @@
-"""ConvNeXt-Tiny 병해충 분류기 (실험 4, 6클래스) + 선택적 과실 탐지기(YOLO11n).
+"""ConvNeXt-Tiny 병해충 분류기 (실험 7 D, 5클래스) + 선택적 과실 탐지기(YOLO11n).
+
+실험 7 D: 재분류 v2 라벨, 지식 스무딩 손실 + 증상 증강 (pest_model/train_exp7.py --loss ksmooth --aug symptom).
 
 전처리는 학습과 반드시 같아야 한다.
   EXIF 회전 반영 → RGB → 과실 박스를 가로·세로 10% 넓혀 자르기
@@ -22,11 +24,11 @@ from torchvision import transforms as T
 from .base import Box, FruitResult, PestResult
 from .guide import TIER_ORDER, Guide
 
-CLASSES = ["healthy", "spot", "brown_rot", "anthracnose", "insect_damage", "others"]
+CLASSES = ["healthy", "spot", "rot", "anthracnose", "damage"]  # label_scheme.CLASSES7과 같은 순서
 MEAN, STD = (0.485, 0.456, 0.406), (0.229, 0.224, 0.225)
 SIZE = 288
 PAD = 0.10
-UNCERTAIN_THR = 0.5   # 임시값. 팀 검수 후 검증 데이터로 다시 정한다
+UNCERTAIN_THR = 0.5   # pick_threshold.py: NCPMS 89장 중 77장(87%) 판정, 판정한 것의 정답률 85.7% (기준 없으면 80.9%)
 DET_CONF = 0.25       # 0.4로 올리면 실제 사진 60장 중 과실 못 찾음이 1→5장으로 늘고, 단색 사진(박스 확신도 0.74)은 못 막아서 0.25 유지
 MIN_SIDE_RATIO = 0.10  # 정답 박스 짧은 변 비율의 하위 1%가 0.147
 MIN_SIDE_PX = 64
@@ -39,7 +41,7 @@ class InvalidImageError(ValueError):
 
 
 class ConvNeXtPestModel:
-    version = "pest-exp4-convnext-2026-11-23"
+    version = "pest-exp7D-convnext-2026-11-25"
 
     def __init__(self, weights: Path, guide: Path, detector: Optional[Path] = None, device: str = "cpu",
                  uncertain_thr: float = UNCERTAIN_THR, det_conf: float = DET_CONF, allow_whole_image: bool = False):

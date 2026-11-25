@@ -1,0 +1,98 @@
+== base
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+device mps; model convnext_tiny loss ce_w aug flip zeroshot False; train 2963 val 653 ncpms 89 test2 351
+[exp7_base] ep01 loss 0.956 val macroF1 0.661 (252s)
+[exp7_base] ep02 loss 0.421 val macroF1 0.672 (249s)
+[exp7_base] ep03 loss 0.183 val macroF1 0.788 (250s)
+[exp7_base] ep04 loss 0.079 val macroF1 0.821 (237s)
+[exp7_base] ep05 loss 0.041 val macroF1 0.860 (243s)
+[exp7_base] ep06 loss 0.023 val macroF1 0.856 (243s)
+[exp7_base] ep07 loss 0.020 val macroF1 0.842 (240s)
+[exp7_base] ep08 loss 0.030 val macroF1 0.867 (243s)
+[exp7_base] ep09 loss 0.010 val macroF1 0.856 (241s)
+[exp7_base] ep10 loss 0.004 val macroF1 0.864 (245s)
+[exp7_base] ep11 loss 0.003 val macroF1 0.831 (236s)
+[exp7_base] ep12 loss 0.002 val macroF1 0.845 (239s)
+[exp7_base] ep13 loss 0.002 val macroF1 0.845 (238s)
+[exp7_base] early stop (best ep8)
+{"model": "convnext_tiny", "loss": "ce_w", "eps": 0.1, "aug": "flip", "zeroshot": false, "lr": 5e-05, "best_epoch": 8, "epochs_run": 13, "train_min": 52.9, "val_macro_f1": 0.867, "val_f1_per_class": {"healthy": 0.9903, "spot": 0.96, "rot": 0.9043, "anthracnose": 0.7826, "damage": 0.6977}, "params_M": 27.8, "ncpms": {"n": 89, "correct": 67, "per_class": {"spot": "11/17", "rot": "31/42", "anthracnose": "16/19", "damage": "9/11"}, "anomaly": "86/89", "rot_group": "54/61"}, "ncpms_clean": {"n": 79, "correct": 62, "per_class": {"spot": "11/17", "rot": "31/38", "anthracnose": "14/16", "damage": "6/8"}, "anomaly": "77/79", "rot_group": "51/54"}, "test2": {"n": 351, "correct": 198, "per_class": {"healthy": "101/106", "spot": "16/23", "rot": "78/209", "anthracnose": "3/13"}, "anomaly": "221/245", "rot_group": "47/73", "healthy_kept": "101/106"}}
+saved results/exp7_base
+== D
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+device mps; model convnext_tiny loss ksmooth aug symptom zeroshot False; train 2963 val 653 ncpms 89 test2 351
+[exp7_D] ep01 loss 1.102 val macroF1 0.691 (241s)
+[exp7_D] ep02 loss 0.739 val macroF1 0.797 (241s)
+[exp7_D] ep03 loss 0.609 val macroF1 0.805 (245s)
+[exp7_D] ep04 loss 0.528 val macroF1 0.840 (241s)
+[exp7_D] ep05 loss 0.521 val macroF1 0.804 (244s)
+[exp7_D] ep06 loss 0.475 val macroF1 0.911 (240s)
+[exp7_D] ep07 loss 0.461 val macroF1 0.887 (245s)
+[exp7_D] ep08 loss 0.443 val macroF1 0.921 (243s)
+[exp7_D] ep09 loss 0.435 val macroF1 0.876 (238s)
+[exp7_D] ep10 loss 0.431 val macroF1 0.900 (240s)
+[exp7_D] ep11 loss 0.425 val macroF1 0.897 (239s)
+[exp7_D] ep12 loss 0.425 val macroF1 0.888 (240s)
+[exp7_D] ep13 loss 0.423 val macroF1 0.891 (241s)
+[exp7_D] early stop (best ep8)
+{"model": "convnext_tiny", "loss": "ksmooth", "eps": 0.1, "aug": "symptom", "zeroshot": false, "lr": 5e-05, "best_epoch": 8, "epochs_run": 13, "train_min": 52.6, "val_macro_f1": 0.9207, "val_f1_per_class": {"healthy": 0.9968, "spot": 0.9709, "rot": 0.9217, "anthracnose": 0.8571, "damage": 0.8571}, "params_M": 27.8, "ncpms": {"n": 89, "correct": 72, "per_class": {"spot": "16/17", "rot": "34/42", "anthracnose": "15/19", "damage": "7/11"}, "anomaly": "87/89", "rot_group": "54/61"}, "ncpms_clean": {"n": 79, "correct": 68, "per_class": {"spot": "16/17", "rot": "34/38", "anthracnose": "14/16", "damage": "4/8"}, "anomaly": "78/79", "rot_group": "52/54"}, "test2": {"n": 351, "correct": 210, "per_class": {"healthy": "101/106", "spot": "19/23", "rot": "86/209", "anthracnose": "4/13"}, "anomaly": "221/245", "rot_group": "54/73", "healthy_kept": "101/106"}}
+saved results/exp7_D
+== clip_ft
+/Users/song-gyeongchan/orca/workspaces/planning/작물표현형-이미지분석-기획안/pest_model/.venv/lib/python3.12/site-packages/torch/jit/_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+device mps; model clip:ViT-B/16 loss ce_w aug flip zeroshot False; train 2963 val 653 ncpms 89 test2 351
+[exp7_clip_ft] ep01 loss 0.661 val macroF1 0.659 (236s)
+[exp7_clip_ft] ep02 loss 0.248 val macroF1 0.802 (238s)
+[exp7_clip_ft] ep03 loss 0.114 val macroF1 0.829 (237s)
+[exp7_clip_ft] ep04 loss 0.157 val macroF1 0.750 (238s)
+[exp7_clip_ft] ep05 loss 0.216 val macroF1 0.773 (237s)
+[exp7_clip_ft] ep06 loss 0.099 val macroF1 0.875 (238s)
+[exp7_clip_ft] ep07 loss 0.036 val macroF1 0.856 (239s)
+[exp7_clip_ft] ep08 loss 0.013 val macroF1 0.862 (239s)
+[exp7_clip_ft] ep09 loss 0.006 val macroF1 0.857 (241s)
+[exp7_clip_ft] ep10 loss 0.003 val macroF1 0.878 (239s)
+[exp7_clip_ft] ep11 loss 0.002 val macroF1 0.886 (240s)
+[exp7_clip_ft] ep12 loss 0.001 val macroF1 0.886 (242s)
+[exp7_clip_ft] ep13 loss 0.001 val macroF1 0.886 (240s)
+[exp7_clip_ft] ep14 loss 0.001 val macroF1 0.886 (238s)
+[exp7_clip_ft] ep15 loss 0.001 val macroF1 0.886 (239s)
+{"model": "clip:ViT-B/16", "loss": "ce_w", "eps": 0.1, "aug": "flip", "zeroshot": false, "lr": 1e-05, "best_epoch": 11, "epochs_run": 15, "train_min": 60.2, "val_macro_f1": 0.8864, "val_f1_per_class": {"healthy": 0.9902, "spot": 0.9659, "rot": 0.9244, "anthracnose": 0.7619, "damage": 0.7895}, "params_M": 111.8, "ncpms": {"n": 89, "correct": 68, "per_class": {"spot": "13/17", "rot": "35/42", "anthracnose": "12/19", "damage": "8/11"}, "anomaly": "88/89", "rot_group": "54/61"}, "ncpms_clean": {"n": 79, "correct": 64, "per_class": {"spot": "13/17", "rot": "35/38", "anthracnose": "11/16", "damage": "5/8"}, "anomaly": "79/79", "rot_group": "51/54"}, "test2": {"n": 351, "correct": 219, "per_class": {"healthy": "103/106", "spot": "18/23", "rot": "94/209", "anthracnose": "4/13"}, "anomaly": "208/245", "rot_group": "57/73", "healthy_kept": "103/106"}}
+saved results/exp7_clip_ft
+== small
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+device mps; model convnext_small loss ce_w aug flip zeroshot False; train 2963 val 653 ncpms 89 test2 351
+[exp7_small] ep01 loss 0.989 val macroF1 0.519 (344s)
+Error: command buffer exited with error status.
+	The Metal Performance Shaders operations encoded on it may not have completed.
+	Error: 
+	(null)
+	Insufficient Memory (00000008:kIOGPUCommandBufferCallbackErrorOutOfMemory)
+	<AGXG16GFamilyCommandBuffer: 0x14e4911f0>
+    label = <none> 
+    device = <AGXG16GDevice: 0x11ed1ac00>
+        name = Apple M4 
+    commandQueue = <AGXG16GFamilyCommandQueue: 0x12b380600>
+        label = <none> 
+        device = <AGXG16GDevice: 0x11ed1ac00>
+            name = Apple M4 
+    retainedReferences = 1
+Traceback (most recent call last):
+  File "/Users/song-gyeongchan/orca/workspaces/planning/작물표현형-이미지분석-기획안/pest_model/train_exp7.py", line 221, in <module>
+    main()
+  File "/Users/song-gyeongchan/orca/workspaces/planning/작물표현형-이미지분석-기획안/pest_model/train_exp7.py", line 188, in main
+    opt.zero_grad(); loss = crit(model(x), t); loss.backward(); opt.step(); tot += loss.item() * len(t)
+                                                                                   ^^^^^^^^^^^
+torch.OutOfMemoryError: MPS command buffer execution failed: Insufficient Memory (00000008:kIOGPUCommandBufferCallbackErrorOutOfMemory). This error may have been asynchronously reported, so the stack trace below might be incorrect.
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+device mps; model convnext_small loss ce_w aug flip zeroshot False; train 2963 val 653 ncpms 89 test2 351
+[exp7_small] ep01 loss 0.873 val macroF1 0.724 (411s)
+[exp7_small] ep02 loss 0.528 val macroF1 0.795 (413s)
+[exp7_small] ep03 loss 0.250 val macroF1 0.789 (410s)
+[exp7_small] ep04 loss 0.170 val macroF1 0.885 (408s)
+[exp7_small] ep05 loss 0.072 val macroF1 0.866 (409s)
+[exp7_small] ep06 loss 0.160 val macroF1 0.823 (408s)
+[exp7_small] ep07 loss 0.067 val macroF1 0.837 (408s)
+[exp7_small] ep08 loss 0.018 val macroF1 0.739 (408s)
+[exp7_small] ep09 loss 0.032 val macroF1 0.812 (409s)
+[exp7_small] early stop (best ep4)
+{"model": "convnext_small", "loss": "ce_w", "eps": 0.1, "aug": "flip", "zeroshot": false, "lr": 5e-05, "best_epoch": 4, "epochs_run": 9, "train_min": 62.0, "val_macro_f1": 0.8854, "val_f1_per_class": {"healthy": 0.9925, "spot": 0.9552, "rot": 0.8966, "anthracnose": 0.8182, "damage": 0.7647}, "params_M": 49.5, "ncpms": {"n": 89, "correct": 64, "per_class": {"spot": "11/17", "rot": "34/42", "anthracnose": "14/19", "damage": "5/11"}, "anomaly": "84/89", "rot_group": "53/61"}, "ncpms_clean": {"n": 79, "correct": 62, "per_class": {"spot": "11/17", "rot": "34/38", "anthracnose": "13/16", "damage": "4/8"}, "anomaly": "75/79", "rot_group": "51/54"}, "test2": {"n": 351, "correct": 215, "per_class": {"healthy": "103/106", "spot": "17/23", "rot": "91/209", "anthracnose": "4/13"}, "anomaly": "210/245", "rot_group": "56/73", "healthy_kept": "103/106"}}
+saved results/exp7_small
