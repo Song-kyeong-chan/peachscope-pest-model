@@ -1,6 +1,9 @@
 # 병해충 모델 추론용 (서버 requirements.txt에 추가). CPU 서버 기준
+# 검증한 버전: Python 3.12.7, torch 2.15.0, torchvision 0.29.2, timm 1.0.31, pillow 13.0.0, numpy 2.5.4, ultralytics 8.4.212
+# 결과를 학습 때와 똑같이 재현하려면 위 버전을 권장한다. 아래 최소 버전 이상이면 동작한다.
 torch>=2.2
 torchvision>=0.17
 timm>=1.0
 pillow>=10
 ultralytics>=8.3   # 내장 과실 탐지기를 쓸 때만. 서버가 과실 박스를 직접 넘기면 필요 없음
+pytest>=8          # 테스트(deploy/tests)를 돌릴 때만

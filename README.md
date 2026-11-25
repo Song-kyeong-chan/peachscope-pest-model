@@ -16,7 +16,8 @@
 
 | 목적 | 위치 |
 |---|---|
-| 총괄 전달서 (먼저 보기) | [`docs/pest-model-handoff.html`](docs/pest-model-handoff.html) |
+| **연동 전에 꼭 알아야 할 것** | [`pest_model/deploy/READ_FIRST.md`](pest_model/deploy/READ_FIRST.md) |
+| 총괄 전달서 | [`docs/pest-model-handoff.html`](docs/pest-model-handoff.html) |
 | 서버에 붙이기 (추론 패키지) | [`pest_model/deploy/`](pest_model/deploy/README.md) |
 | 대응방안 데이터 (v0.6.0) | [`pest_model/knowledge/peach_pest_guide.json`](pest_model/knowledge/peach_pest_guide.json) |
 | 실험 과정과 결과 | [`docs/pest-model-experiment-log.md`](docs/pest-model-experiment-log.md) |
