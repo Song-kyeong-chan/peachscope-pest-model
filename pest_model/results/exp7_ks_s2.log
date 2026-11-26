@@ -1,0 +1,18 @@
+device mps; model convnext_tiny loss ksmooth aug flip zeroshot False; train 2963 val 653 ncpms 89 test2 351
+[exp7_ks_s2] ep01 loss 1.118 val macroF1 0.554 (187s)
+[exp7_ks_s2] ep02 loss 0.702 val macroF1 0.810 (188s)
+[exp7_ks_s2] ep03 loss 0.538 val macroF1 0.859 (191s)
+[exp7_ks_s2] ep04 loss 0.496 val macroF1 0.895 (194s)
+[exp7_ks_s2] ep05 loss 0.466 val macroF1 0.871 (194s)
+[exp7_ks_s2] ep06 loss 0.432 val macroF1 0.923 (199s)
+[exp7_ks_s2] ep07 loss 0.438 val macroF1 0.904 (198s)
+[exp7_ks_s2] ep08 loss 0.423 val macroF1 0.918 (194s)
+[exp7_ks_s2] ep09 loss 0.419 val macroF1 0.924 (195s)
+[exp7_ks_s2] ep10 loss 0.417 val macroF1 0.890 (194s)
+[exp7_ks_s2] ep11 loss 0.417 val macroF1 0.910 (196s)
+[exp7_ks_s2] ep12 loss 0.415 val macroF1 0.890 (195s)
+[exp7_ks_s2] ep13 loss 0.415 val macroF1 0.890 (195s)
+[exp7_ks_s2] ep14 loss 0.415 val macroF1 0.890 (225s)
+[exp7_ks_s2] early stop (best ep9)
+{"seed": 2, "model": "convnext_tiny", "loss": "ksmooth", "eps": 0.1, "aug": "flip", "zeroshot": false, "lr": 5e-05, "best_epoch": 9, "epochs_run": 14, "train_min": 46.0, "val_macro_f1": 0.9239, "val_f1_per_class": {"healthy": 0.9936, "spot": 0.9662, "rot": 0.9322, "anthracnose": 0.8889, "damage": 0.8387}, "params_M": 27.8, "ncpms": {"n": 89, "correct": 69, "per_class": {"spot": "15/17", "rot": "34/42", "anthracnose": "13/19", "damage": "7/11"}, "anomaly": "86/89", "rot_group": "52/61"}, "ncpms_clean": {"n": 79, "correct": 66, "per_class": {"spot": "15/17", "rot": "34/38", "anthracnose": "12/16", "damage": "5/8"}, "anomaly": "77/79", "rot_group": "50/54"}, "test2": {"n": 351, "correct": 219, "per_class": {"healthy": "102/106", "spot": "20/23", "rot": "94/209", "anthracnose": "3/13"}, "anomaly": "218/245", "rot_group": "55/73", "healthy_kept": "102/106"}}
+saved results/exp7_ks_s2

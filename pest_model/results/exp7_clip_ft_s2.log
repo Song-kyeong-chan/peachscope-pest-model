@@ -1,0 +1,20 @@
+/Users/song-gyeongchan/orca/workspaces/planning/작물표현형-이미지분석-기획안/pest_model/.venv/lib/python3.12/site-packages/torch/jit/_serialization.py:176: FutureWarning: `torch.jit.load` is deprecated. Please switch to `torch.export`.
+  warnings.warn(
+device mps; model clip:ViT-B/16 loss ce_w aug flip zeroshot False; train 2963 val 653 ncpms 89 test2 351
+[exp7_clip_ft_s2] ep01 loss 0.676 val macroF1 0.775 (187s)
+[exp7_clip_ft_s2] ep02 loss 0.335 val macroF1 0.731 (191s)
+[exp7_clip_ft_s2] ep03 loss 0.120 val macroF1 0.829 (186s)
+[exp7_clip_ft_s2] ep04 loss 0.146 val macroF1 0.795 (187s)
+[exp7_clip_ft_s2] ep05 loss 0.099 val macroF1 0.779 (186s)
+[exp7_clip_ft_s2] ep06 loss 0.052 val macroF1 0.789 (186s)
+[exp7_clip_ft_s2] ep07 loss 0.035 val macroF1 0.889 (186s)
+[exp7_clip_ft_s2] ep08 loss 0.015 val macroF1 0.889 (187s)
+[exp7_clip_ft_s2] ep09 loss 0.004 val macroF1 0.891 (186s)
+[exp7_clip_ft_s2] ep10 loss 0.002 val macroF1 0.896 (187s)
+[exp7_clip_ft_s2] ep11 loss 0.004 val macroF1 0.894 (187s)
+[exp7_clip_ft_s2] ep12 loss 0.001 val macroF1 0.894 (188s)
+[exp7_clip_ft_s2] ep13 loss 0.001 val macroF1 0.902 (187s)
+[exp7_clip_ft_s2] ep14 loss 0.001 val macroF1 0.910 (187s)
+[exp7_clip_ft_s2] ep15 loss 0.001 val macroF1 0.910 (188s)
+{"seed": 2, "model": "clip:ViT-B/16", "loss": "ce_w", "eps": 0.1, "aug": "flip", "zeroshot": false, "lr": 1e-05, "best_epoch": 14, "epochs_run": 15, "train_min": 47.2, "val_macro_f1": 0.9105, "val_f1_per_class": {"healthy": 0.9957, "spot": 0.9703, "rot": 0.9421, "anthracnose": 0.7619, "damage": 0.8824}, "params_M": 111.8, "ncpms": {"n": 89, "correct": 68, "per_class": {"spot": "13/17", "rot": "34/42", "anthracnose": "14/19", "damage": "7/11"}, "anomaly": "86/89", "rot_group": "56/61"}, "ncpms_clean": {"n": 79, "correct": 65, "per_class": {"spot": "13/17", "rot": "34/38", "anthracnose": "13/16", "damage": "5/8"}, "anomaly": "77/79", "rot_group": "53/54"}, "test2": {"n": 351, "correct": 234, "per_class": {"healthy": "103/106", "spot": "21/23", "rot": "106/209", "anthracnose": "4/13"}, "anomaly": "213/245", "rot_group": "58/73", "healthy_kept": "103/106"}}
+saved results/exp7_clip_ft_s2

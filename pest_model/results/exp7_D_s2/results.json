@@ -1,0 +1,130 @@
+{
+  "seed": 2,
+  "model": "convnext_tiny",
+  "loss": "ksmooth",
+  "eps": 0.1,
+  "aug": "symptom",
+  "zeroshot": false,
+  "lr": 5e-05,
+  "best_epoch": 9,
+  "epochs_run": 14,
+  "train_min": 52.5,
+  "val_macro_f1": 0.9242,
+  "val_f1_per_class": {
+    "healthy": 0.9925,
+    "spot": 0.9756,
+    "rot": 0.9217,
+    "anthracnose": 0.8421,
+    "damage": 0.8889
+  },
+  "params_M": 27.8,
+  "ncpms": {
+    "n": 89,
+    "correct": 66,
+    "per_class": {
+      "spot": "12/17",
+      "rot": "33/42",
+      "anthracnose": "12/19",
+      "damage": "9/11"
+    },
+    "anomaly": "85/89",
+    "rot_group": "51/61"
+  },
+  "ncpms_clean": {
+    "n": 79,
+    "correct": 63,
+    "per_class": {
+      "spot": "12/17",
+      "rot": "33/38",
+      "anthracnose": "12/16",
+      "damage": "6/8"
+    },
+    "anomaly": "76/79",
+    "rot_group": "50/54"
+  },
+  "test2": {
+    "n": 351,
+    "correct": 212,
+    "per_class": {
+      "healthy": "102/106",
+      "spot": "19/23",
+      "rot": "87/209",
+      "anthracnose": "4/13"
+    },
+    "anomaly": "214/245",
+    "rot_group": "55/73",
+    "healthy_kept": "102/106"
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 1.1102,
+      "val_macro_f1": 0.6451
+    },
+    {
+      "epoch": 2,
+      "loss": 0.7206,
+      "val_macro_f1": 0.781
+    },
+    {
+      "epoch": 3,
+      "loss": 0.6371,
+      "val_macro_f1": 0.8055
+    },
+    {
+      "epoch": 4,
+      "loss": 0.5512,
+      "val_macro_f1": 0.8589
+    },
+    {
+      "epoch": 5,
+      "loss": 0.52,
+      "val_macro_f1": 0.8487
+    },
+    {
+      "epoch": 6,
+      "loss": 0.5029,
+      "val_macro_f1": 0.888
+    },
+    {
+      "epoch": 7,
+      "loss": 0.4697,
+      "val_macro_f1": 0.8795
+    },
+    {
+      "epoch": 8,
+      "loss": 0.4595,
+      "val_macro_f1": 0.8998
+    },
+    {
+      "epoch": 9,
+      "loss": 0.4427,
+      "val_macro_f1": 0.9242
+    },
+    {
+      "epoch": 10,
+      "loss": 0.4378,
+      "val_macro_f1": 0.9046
+    },
+    {
+      "epoch": 11,
+      "loss": 0.4349,
+      "val_macro_f1": 0.9086
+    },
+    {
+      "epoch": 12,
+      "loss": 0.4298,
+      "val_macro_f1": 0.922
+    },
+    {
+      "epoch": 13,
+      "loss": 0.4286,
+      "val_macro_f1": 0.9194
+    },
+    {
+      "epoch": 14,
+      "loss": 0.4251,
+      "val_macro_f1": 0.9194
+    }
+  ]
+}

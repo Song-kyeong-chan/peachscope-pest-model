@@ -16,6 +16,7 @@
 import argparse
 import csv
 import json
+import random
 import time
 from pathlib import Path
 
@@ -133,10 +134,11 @@ def main():
     ap.add_argument("--patience", type=int, default=5)
     ap.add_argument("--min-epochs", type=int, default=8)
     ap.add_argument("--bs", type=int, default=32)
+    ap.add_argument("--seed", type=int, default=42, help="초기화·데이터 순서·증강 난수. seed 반복 비교용")
     a = ap.parse_args()
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     dev = "mps" if torch.backends.mps.is_available() else "cpu"
-    torch.manual_seed(42); np.random.seed(42)
+    torch.manual_seed(a.seed); np.random.seed(a.seed); random.seed(a.seed)
     rows = list(csv.DictReader(open(a.labels)))
     sp = {s: [(r["file"], C.index(r["cls"])) for r in rows if r["split"] == s] for s in ("train", "val", "test", "test2")}
     meta = {s: [r for r in rows if r["split"] == s] for s in ("test", "test2")}
@@ -210,7 +212,7 @@ def main():
     with open(out / "preds.csv", "w", newline="") as f:
         wr = csv.DictWriter(f, fieldnames=list(pr[0])); wr.writeheader(); wr.writerows(pr)
     flags = {r["file"] for r in csv.DictReader(open("results/ncpms_flags.csv"))}
-    res = dict(model=a.model, loss=a.loss, eps=a.eps, aug=a.aug, zeroshot=a.zeroshot, lr=lr, best_epoch=best_ep,
+    res = dict(seed=a.seed, model=a.model, loss=a.loss, eps=a.eps, aug=a.aug, zeroshot=a.zeroshot, lr=lr, best_epoch=best_ep,
                epochs_run=len(hist), train_min=round((time.time() - t0) / 60, 1),
                val_macro_f1=round(float(f1_score(yv, pv.argmax(1), average="macro")), 4),
                val_f1_per_class={c: round(float(v), 4) for c, v in zip(C, f1_score(yv, pv.argmax(1), average=None, labels=range(len(C))))},

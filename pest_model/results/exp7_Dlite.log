@@ -1,10 +1,20 @@
 Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
 device mps; model convnext_tiny loss ksmooth aug symptom_lite zeroshot False; train 2963 val 653 ncpms 89 test2 351
-[exp7_Dlite] ep01 loss 1.058 val macroF1 0.735 (194s)
-[exp7_Dlite] ep02 loss 0.718 val macroF1 0.772 (206s)
-[exp7_Dlite] ep03 loss 0.573 val macroF1 0.804 (198s)
-[exp7_Dlite] ep04 loss 0.532 val macroF1 0.794 (199s)
-[exp7_Dlite] ep05 loss 0.489 val macroF1 0.876 (197s)
-[exp7_Dlite] ep06 loss 0.467 val macroF1 0.861 (205s)
-[exp7_Dlite] ep07 loss 0.448 val macroF1 0.899 (205s)
-[exp7_Dlite] ep08 loss 0.441 val macroF1 0.888 (199s)
+[exp7_Dlite] ep01 loss 1.058 val macroF1 0.735 (192s)
+[exp7_Dlite] ep02 loss 0.718 val macroF1 0.772 (192s)
+[exp7_Dlite] ep03 loss 0.573 val macroF1 0.804 (200s)
+[exp7_Dlite] ep04 loss 0.532 val macroF1 0.794 (202s)
+[exp7_Dlite] ep05 loss 0.489 val macroF1 0.876 (201s)
+[exp7_Dlite] ep06 loss 0.467 val macroF1 0.861 (202s)
+[exp7_Dlite] ep07 loss 0.448 val macroF1 0.899 (198s)
+[exp7_Dlite] ep08 loss 0.441 val macroF1 0.888 (196s)
+[exp7_Dlite] ep09 loss 0.428 val macroF1 0.868 (195s)
+[exp7_Dlite] ep10 loss 0.429 val macroF1 0.904 (195s)
+[exp7_Dlite] ep11 loss 0.425 val macroF1 0.889 (195s)
+[exp7_Dlite] ep12 loss 0.426 val macroF1 0.880 (194s)
+[exp7_Dlite] ep13 loss 0.422 val macroF1 0.880 (196s)
+[exp7_Dlite] ep14 loss 0.421 val macroF1 0.880 (195s)
+[exp7_Dlite] ep15 loss 0.421 val macroF1 0.880 (194s)
+[exp7_Dlite] early stop (best ep10)
+{"seed": 42, "model": "convnext_tiny", "loss": "ksmooth", "eps": 0.1, "aug": "symptom_lite", "zeroshot": false, "lr": 5e-05, "best_epoch": 10, "epochs_run": 15, "train_min": 49.4, "val_macro_f1": 0.9035, "val_f1_per_class": {"healthy": 0.9935, "spot": 0.9612, "rot": 0.8983, "anthracnose": 0.9, "damage": 0.7647}, "params_M": 27.8, "ncpms": {"n": 89, "correct": 70, "per_class": {"spot": "15/17", "rot": "35/42", "anthracnose": "14/19", "damage": "6/11"}, "anomaly": "87/89", "rot_group": "55/61"}, "ncpms_clean": {"n": 79, "correct": 66, "per_class": {"spot": "15/17", "rot": "35/38", "anthracnose": "12/16", "damage": "4/8"}, "anomaly": "78/79", "rot_group": "51/54"}, "test2": {"n": 351, "correct": 231, "per_class": {"healthy": "102/106", "spot": "19/23", "rot": "106/209", "anthracnose": "4/13"}, "anomaly": "226/245", "rot_group": "57/73", "healthy_kept": "102/106"}}
+saved results/exp7_Dlite

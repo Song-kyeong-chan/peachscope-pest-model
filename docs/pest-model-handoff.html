@@ -78,7 +78,7 @@ footer{color:var(--muted);font-size:13px}
     <h2>한눈에 보기</h2>
     <div class="summary">
       <div class="stat"><b>약 81%</b><span>전체 진행률</span></div>
-      <div class="stat"><b>72 / 89</b><span>외부 전문가 사진(NCPMS) 병명 정답 (81%)</span></div>
+      <div class="stat"><b>약 77%</b><span>외부 전문가 사진(NCPMS) 병명 정답, 학습 3번 평균 (배포 가중치는 72/89, 81%)</span></div>
       <div class="stat"><b>87 / 89</b><span>병든 과실을 '이상'으로 검출 (98%)</span></div>
       <div class="stat"><b>225 / 288</b><span>팀 검수 test 정답 (78%), 정상 유지 114/125</span></div>
     </div>
@@ -93,7 +93,7 @@ footer{color:var(--muted);font-size:13px}
         <tr><td>클래스</td><td>6개: healthy, spot, brown_rot, anthracnose, insect_damage, others</td><td>5개: <code>healthy</code>, <code>spot</code>, <code>rot</code>, <code>anthracnose</code>, <code>damage</code></td></tr>
         <tr><td>학습 라벨</td><td>442개가 검수 전 임시 라벨</td><td>팀 검수 반영 + 학습·검증 사진 전체 재분류(v2)</td></tr>
         <tr><td>학습 방식</td><td>클래스 가중치 CE, 좌우 뒤집기</td><td>지식 스무딩 손실 + 증상 증강</td></tr>
-        <tr><td>NCPMS 병명 정답</td><td class="num">48 / 91 (6클래스)</td><td class="num"><b>72 / 89 (5클래스)</b></td></tr>
+        <tr><td>NCPMS 병명 정답</td><td class="num">48 / 91 (6클래스)</td><td class="num"><b>72 / 89 (5클래스)</b>, 학습 3번 평균 68.3</td></tr>
         <tr><td>틀린 답의 평균 확신도</td><td class="num">0.83</td><td class="num">0.62 (오답을 확신도로 거르기 쉬워짐)</td></tr>
         <tr><td>"판별 불가" 기준</td><td>0.5 (임시값)</td><td>0.5 (검증 완료: 87%를 판정, 판정한 것의 정답률 85.7%)</td></tr>
         <tr><td>모델 버전</td><td><code>pest-exp4-convnext-2026-11-23</code></td><td><code>pest-exp7D-convnext-2026-11-25</code></td></tr>
@@ -211,8 +211,10 @@ pest = pest_model.predict(image_bytes, boxes=None)  # boxes: 원본 픽셀 [(x1,
         <tr><td>정상 유지</td><td>NCPMS에 정상 사진 없음</td><td class="num">114 / 125</td></tr>
         <tr><td>이상 검출</td><td class="num">87 / 89</td><td class="num">160 / 163</td></tr>
         <tr class="hl"><td><b>병명 정답</b></td><td class="num"><b>72 / 89 (81%)</b></td><td class="num"><b>225 / 288 (78%)</b></td></tr>
+        <tr><td>병명 정답, 학습 3번 평균 (범위)</td><td class="num">68.3 / 89 (77%, 66~72)</td><td class="num">228.3 / 288 (79%, 225~233)</td></tr>
       </tbody>
     </table></div>
+    <p class="sub"><b>새 사진에서는 병명 정확도 77% 안팎을 기대하세요.</b> 같은 설정을 seed(학습 무작위성)만 바꿔 3번 학습하면 NCPMS 점수가 66~72로 흔들립니다. 배포 가중치의 81%는 그중 높은 쪽입니다. NCPMS가 89장뿐이라 몇 장 차이로 점수가 크게 움직입니다.</p>
     <ul>
       <li>팀 검수 test의 "기타" 149개는 세부 병명이 없어, 하나씩 다시 판정했습니다(구멍·상처 41, 부패병 21, 정상 19 등). 판단이 어려운 55개와 과실이 거의 안 보이는 8개는 평가에서 뺐습니다.</li>
       <li>탄저병은 팀 검수 test에서 대부분 부패병으로 판정됩니다. 둘 다 <code>urgent</code> 등급이라 앱의 대응 안내는 같습니다.</li>
@@ -242,7 +244,7 @@ pest = pest_model.predict(image_bytes, boxes=None)  # boxes: 원본 픽셀 [(x1,
     </table></div>
     <ul>
       <li><b>가장 큰 개선은 라벨 정리에서 나왔습니다.</b> 공개 데이터의 사진 단위 라벨이 한 사진의 모든 과실에 퍼져 있었고, "잿빛무늬병" 폴더에 미라 과실이나 다른 병이 섞여 있었습니다.</li>
-      <li><b>지식 스무딩</b>: 정답에 확률을 100% 몰아주지 않고, 헷갈리기 쉬운 짝(부패병↔탄저병, 반점병↔구멍·상처)에 일부를 나눠 학습합니다. 반점병 개선(11 → 16/17)과 오답 확신도 하락이 이 덕분입니다.</li>
+      <li><b>지식 스무딩</b>: 정답에 확률을 100% 몰아주지 않고, 헷갈리기 쉬운 짝(부패병↔탄저병, 반점병↔구멍·상처)에 일부를 나눠 학습합니다. 반점병 개선(11 → 16/17)과 오답 확신도 하락이 이 덕분입니다. 다만 반점병 16/17은 다른 seed에서 12~15였습니다.</li>
       <li><b>증상 증강</b>(자르기·회전·뒤집기·약한 색 변화): 부패병 개선(31 → 34/42)에 기여했습니다.</li>
     </ul>
 

@@ -34,6 +34,7 @@ def mcnemar(a, b):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("runs", nargs="+", help="results/ 아래 결과 폴더 이름 (첫 번째가 McNemar 기준)")
+    ap.add_argument("--out", default="results/test2_others/rescore.json")
     a = ap.parse_args()
     nl = new_labels()
     base = [r for r in csv.DictReader(open("results/exp7/labels.csv")) if r["split"] == "test2"]
@@ -65,7 +66,7 @@ def main():
         res[run]["mcnemar_vs_" + b0] = dict(only_base=x, only_this=y, p=round(mcnemar(x, y), 4))
     for run, r in res.items():
         print(run, json.dumps(r, ensure_ascii=False))
-    (Path("results/test2_others") / "rescore.json").write_text(json.dumps(res, indent=2, ensure_ascii=False))
+    Path(a.out).write_text(json.dumps(res, indent=2, ensure_ascii=False))
 
 
 if __name__ == "__main__":
