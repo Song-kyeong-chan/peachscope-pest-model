@@ -1,0 +1,16 @@
+idx,file,orig,preds_9models,v3,note
+0,test2/t2_001151_jpg.rf.d0226620245a3322e88365c6ad_0.jpg,anthracnose,A S A A S S A A A,anthracnose,움푹한 검은 반점 여러 개
+1,test2/t2_001505_jpg.rf.1602c7682edc86828fde4a2e78_0.jpg,anthracnose,A A A A A A A A A,anthracnose,겹무늬 움푹한 병반
+2,test2/t2_001505_jpg.rf.1602c7682edc86828fde4a2e78_1.jpg,anthracnose,S H S S H S H H H,_애매,"연한 작은 점, 병반 불명"
+3,test2/t2_001505_jpg.rf.1602c7682edc86828fde4a2e78_2.jpg,anthracnose,H H H H H H H H H,_제외,잎에 가려 병반 안 보임
+4,test2/t2_bad-142-_jpg.rf.d87a05b98be5b74b8ec1b851_0.jpg,anthracnose,R R R R R R R R R,_애매,"bad-142 한 사진, 수확 후 마른 과실. 부패와 구분 불가"
+5,test2/t2_bad-142-_jpg.rf.d87a05b98be5b74b8ec1b851_1.jpg,anthracnose,R R R R R R R R R,_애매,"bad-142 한 사진, 수확 후 마른 과실. 부패와 구분 불가"
+6,test2/t2_bad-142-_jpg.rf.d87a05b98be5b74b8ec1b851_2.jpg,anthracnose,R R R R R R R R R,_애매,"bad-142 한 사진, 수확 후 마른 과실. 부패와 구분 불가"
+7,test2/t2_bad-142-_jpg.rf.d87a05b98be5b74b8ec1b851_3.jpg,anthracnose,R R R R R R R R R,_애매,"bad-142 한 사진, 수확 후 마른 과실. 부패와 구분 불가"
+8,test2/t2_bad-142-_jpg.rf.d87a05b98be5b74b8ec1b851_4.jpg,anthracnose,R R R R R R R R R,_애매,"bad-142 한 사진, 수확 후 마른 과실. 부패와 구분 불가"
+9,test2/t2_bad-185-_jpg.rf.3b67019730e88c76d5c37e7d_0.jpg,anthracnose,R R R R R R R R R,anthracnose,"흰 곰팡이 테두리+주황 포자덩이, 잿빛무늬병과 혼동 가능"
+10,test2/t2_bad-186-_jpg.rf.57f2e94db3665e089e0696d3_0.jpg,others,A A A A A A A A A,anthracnose,주황·갈색 겹둥근무늬
+11,test2/t2_bad-24-_jpg.rf.c612b68ed9019842fdf4f7107_0.jpg,others,A A A A A A A R A,anthracnose,주황·갈색 겹둥근무늬
+12,test2/t2_bad-28-_jpg.rf.162ac256b6d9e35b88d5bc133_0.jpg,anthracnose,A A A A A A A A A,anthracnose,전형적 겹무늬 병반 2개
+13,test2/t2_bad-28-_jpg.rf.162ac256b6d9e35b88d5bc133_1.jpg,anthracnose,A A A A A A A D A,anthracnose,풋과실 초기 원형 병반
+14,test2/t2_bok-05_jpg.rf.83b1a0449b4b851c3d7db79ef3_0.jpg,anthracnose,R R R R R R R R S,_애매,"흐린 사진, 탄저병 초기/검은별무늬병 불명"

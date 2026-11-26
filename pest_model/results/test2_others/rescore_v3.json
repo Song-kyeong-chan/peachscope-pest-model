@@ -1,0 +1,244 @@
+{
+  "exp7_D": {
+    "correct": 225,
+    "n": 280,
+    "per_class": {
+      "healthy": "114/125",
+      "spot": "20/26",
+      "rot": "55/81",
+      "anthracnose": "6/7",
+      "damage": "30/41"
+    },
+    "anomaly": "153/155",
+    "healthy_kept": "114/125",
+    "others_only": "62/86"
+  },
+  "exp7_D_s1": {
+    "correct": 227,
+    "n": 280,
+    "per_class": {
+      "healthy": "115/125",
+      "spot": "17/26",
+      "rot": "57/81",
+      "anthracnose": "5/7",
+      "damage": "33/41"
+    },
+    "anomaly": "151/155",
+    "healthy_kept": "115/125",
+    "others_only": "63/86",
+    "mcnemar_vs_exp7_D": {
+      "only_base": 10,
+      "only_this": 12,
+      "p": 0.8318
+    }
+  },
+  "exp7_D_s2": {
+    "correct": 233,
+    "n": 280,
+    "per_class": {
+      "healthy": "117/125",
+      "spot": "21/26",
+      "rot": "55/81",
+      "anthracnose": "6/7",
+      "damage": "34/41"
+    },
+    "anomaly": "152/155",
+    "healthy_kept": "117/125",
+    "others_only": "68/86",
+    "mcnemar_vs_exp7_D": {
+      "only_base": 3,
+      "only_this": 11,
+      "p": 0.0574
+    }
+  },
+  "exp7_ks": {
+    "correct": 228,
+    "n": 280,
+    "per_class": {
+      "healthy": "113/125",
+      "spot": "21/26",
+      "rot": "58/81",
+      "anthracnose": "6/7",
+      "damage": "30/41"
+    },
+    "anomaly": "153/155",
+    "healthy_kept": "113/125",
+    "others_only": "61/86",
+    "mcnemar_vs_exp7_D": {
+      "only_base": 9,
+      "only_this": 12,
+      "p": 0.6636
+    }
+  },
+  "exp7_ks_s1": {
+    "correct": 231,
+    "n": 280,
+    "per_class": {
+      "healthy": "114/125",
+      "spot": "20/26",
+      "rot": "58/81",
+      "anthracnose": "5/7",
+      "damage": "34/41"
+    },
+    "anomaly": "154/155",
+    "healthy_kept": "114/125",
+    "others_only": "68/86",
+    "mcnemar_vs_exp7_D": {
+      "only_base": 6,
+      "only_this": 12,
+      "p": 0.2379
+    }
+  },
+  "exp7_ks_s2": {
+    "correct": 226,
+    "n": 280,
+    "per_class": {
+      "healthy": "116/125",
+      "spot": "21/26",
+      "rot": "56/81",
+      "anthracnose": "5/7",
+      "damage": "28/41"
+    },
+    "anomaly": "153/155",
+    "healthy_kept": "116/125",
+    "others_only": "61/86",
+    "mcnemar_vs_exp7_D": {
+      "only_base": 12,
+      "only_this": 13,
+      "p": 1.0
+    }
+  },
+  "exp7_clip_ft": {
+    "correct": 237,
+    "n": 280,
+    "per_class": {
+      "healthy": "117/125",
+      "spot": "20/26",
+      "rot": "61/81",
+      "anthracnose": "6/7",
+      "damage": "33/41"
+    },
+    "anomaly": "152/155",
+    "healthy_kept": "117/125",
+    "others_only": "69/86",
+    "mcnemar_vs_exp7_D": {
+      "only_base": 4,
+      "only_this": 16,
+      "p": 0.0118
+    }
+  },
+  "exp7_clip_ft_s1": {
+    "correct": 224,
+    "n": 280,
+    "per_class": {
+      "healthy": "113/125",
+      "spot": "18/26",
+      "rot": "55/81",
+      "anthracnose": "4/7",
+      "damage": "34/41"
+    },
+    "anomaly": "151/155",
+    "healthy_kept": "113/125",
+    "others_only": "61/86",
+    "mcnemar_vs_exp7_D": {
+      "only_base": 15,
+      "only_this": 14,
+      "p": 1.0
+    }
+  },
+  "exp7_clip_ft_s2": {
+    "correct": 235,
+    "n": 280,
+    "per_class": {
+      "healthy": "116/125",
+      "spot": "22/26",
+      "rot": "62/81",
+      "anthracnose": "6/7",
+      "damage": "29/41"
+    },
+    "anomaly": "153/155",
+    "healthy_kept": "116/125",
+    "others_only": "63/86",
+    "mcnemar_vs_exp7_D": {
+      "only_base": 8,
+      "only_this": 18,
+      "p": 0.0755
+    }
+  },
+  "exp7_Dlite": {
+    "correct": 224,
+    "n": 280,
+    "per_class": {
+      "healthy": "111/125",
+      "spot": "20/26",
+      "rot": "60/81",
+      "anthracnose": "6/7",
+      "damage": "27/41"
+    },
+    "anomaly": "154/155",
+    "healthy_kept": "111/125",
+    "others_only": "57/86",
+    "mcnemar_vs_exp7_D": {
+      "only_base": 10,
+      "only_this": 9,
+      "p": 1.0
+    }
+  },
+  "exp7_aug": {
+    "correct": 227,
+    "n": 280,
+    "per_class": {
+      "healthy": "117/125",
+      "spot": "19/26",
+      "rot": "56/81",
+      "anthracnose": "6/7",
+      "damage": "29/41"
+    },
+    "anomaly": "150/155",
+    "healthy_kept": "117/125",
+    "others_only": "63/86",
+    "mcnemar_vs_exp7_D": {
+      "only_base": 5,
+      "only_this": 7,
+      "p": 0.7744
+    }
+  },
+  "exp7_base": {
+    "correct": 211,
+    "n": 280,
+    "per_class": {
+      "healthy": "111/125",
+      "spot": "17/26",
+      "rot": "47/81",
+      "anthracnose": "5/7",
+      "damage": "31/41"
+    },
+    "anomaly": "151/155",
+    "healthy_kept": "111/125",
+    "others_only": "58/86",
+    "mcnemar_vs_exp7_D": {
+      "only_base": 19,
+      "only_this": 5,
+      "p": 0.0066
+    }
+  },
+  "exp7_small": {
+    "correct": 223,
+    "n": 280,
+    "per_class": {
+      "healthy": "117/125",
+      "spot": "18/26",
+      "rot": "56/81",
+      "anthracnose": "6/7",
+      "damage": "26/41"
+    },
+    "anomaly": "149/155",
+    "healthy_kept": "117/125",
+    "others_only": "59/86",
+    "mcnemar_vs_exp7_D": {
+      "only_base": 15,
+      "only_this": 13,
+      "p": 0.8506
+    }
+  }
+}

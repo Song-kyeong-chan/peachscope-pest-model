@@ -80,7 +80,7 @@ footer{color:var(--muted);font-size:13px}
       <div class="stat"><b>약 81%</b><span>전체 진행률</span></div>
       <div class="stat"><b>약 77%</b><span>외부 전문가 사진(NCPMS) 병명 정답, 학습 3번 평균 (배포 가중치는 72/89, 81%)</span></div>
       <div class="stat"><b>87 / 89</b><span>병든 과실을 '이상'으로 검출 (98%)</span></div>
-      <div class="stat"><b>225 / 288</b><span>팀 검수 test 정답 (78%), 정상 유지 114/125</span></div>
+      <div class="stat"><b>225 / 280</b><span>팀 검수 test 정답 (80%), 정상 유지 114/125</span></div>
     </div>
     <p>연동용으로 <b>실험 7 D 모델(정상 · 반점병 · 부패병 · 탄저병 · 구멍·상처, 5클래스)</b>과 서버에 바로 붙일 수 있는 추론 패키지 <code>pest_model/deploy/</code>를 넘깁니다. 클래스는 대응 방법이 같은 병끼리 묶었고, 세부 병명은 앱에서 질문으로 나눕니다. 지난 전달본(실험 4, 6클래스)과 인터페이스는 같고, 가중치와 클래스 이름만 바뀌었습니다.</p>
   </section>
@@ -202,22 +202,22 @@ pest = pest_model.predict(image_bytes, boxes=None)  # boxes: 원본 픽셀 [(x1,
     <h2>검증 결과</h2>
     <h3>1. 외부 평가 두 가지 (학습에 쓰지 않은 사진)</h3>
     <div class="tbl"><table>
-      <thead><tr><th>클래스</th><th>NCPMS 89장 (전문가 진단, 한국 과원)</th><th>팀 검수 test 288개 (다양한 출처)</th></tr></thead>
+      <thead><tr><th>클래스</th><th>NCPMS 89장 (전문가 진단, 한국 과원)</th><th>팀 검수 test 280개 (다양한 출처)</th></tr></thead>
       <tbody>
         <tr><td>반점병</td><td class="num">16 / 17</td><td class="num">20 / 26</td></tr>
         <tr><td>부패병</td><td class="num">34 / 42</td><td class="num">55 / 81</td></tr>
-        <tr><td>탄저병</td><td class="num">15 / 19</td><td class="num"><span class="pill bad">6 / 15</span></td></tr>
+        <tr><td>탄저병</td><td class="num">15 / 19</td><td class="num">6 / 7</td></tr>
         <tr><td>구멍·상처</td><td class="num">7 / 11</td><td class="num">30 / 41</td></tr>
         <tr><td>정상 유지</td><td>NCPMS에 정상 사진 없음</td><td class="num">114 / 125</td></tr>
-        <tr><td>이상 검출</td><td class="num">87 / 89</td><td class="num">160 / 163</td></tr>
-        <tr class="hl"><td><b>병명 정답</b></td><td class="num"><b>72 / 89 (81%)</b></td><td class="num"><b>225 / 288 (78%)</b></td></tr>
-        <tr><td>병명 정답, 학습 3번 평균 (범위)</td><td class="num">68.3 / 89 (77%, 66~72)</td><td class="num">228.3 / 288 (79%, 225~233)</td></tr>
+        <tr><td>이상 검출</td><td class="num">87 / 89</td><td class="num">153 / 155</td></tr>
+        <tr class="hl"><td><b>병명 정답</b></td><td class="num"><b>72 / 89 (81%)</b></td><td class="num"><b>225 / 280 (80%)</b></td></tr>
+        <tr><td>병명 정답, 학습 3번 평균 (범위)</td><td class="num">68.3 / 89 (77%, 66~72)</td><td class="num">228.3 / 280 (82%, 225~233)</td></tr>
       </tbody>
     </table></div>
     <p class="sub"><b>새 사진에서는 병명 정확도 77% 안팎을 기대하세요.</b> 같은 설정을 seed(학습 무작위성)만 바꿔 3번 학습하면 NCPMS 점수가 66~72로 흔들립니다. 배포 가중치의 81%는 그중 높은 쪽입니다. NCPMS가 89장뿐이라 몇 장 차이로 점수가 크게 움직입니다.</p>
     <ul>
       <li>팀 검수 test의 "기타" 149개는 세부 병명이 없어, 하나씩 다시 판정했습니다(구멍·상처 41, 부패병 21, 정상 19 등). 판단이 어려운 55개와 과실이 거의 안 보이는 8개는 평가에서 뺐습니다.</li>
-      <li>탄저병은 팀 검수 test에서 대부분 부패병으로 판정됩니다. 둘 다 <code>urgent</code> 등급이라 앱의 대응 안내는 같습니다.</li>
+      <li>탄저병 정답 15개도 다시 봤습니다. 사진 1장에서 나온 마른 과실 5개처럼 탄저병으로 확정하기 어려운 8개를 뺐고, 남은 7개 중 6개를 맞혔습니다.</li>
     </ul>
 
     <h3>2. 판별 불가 기준 (확신도 0.5)</h3>
@@ -250,12 +250,12 @@ pest = pest_model.predict(image_bytes, boxes=None)  # boxes: 원본 픽셀 [(x1,
 
     <h3>4. 비교한 다른 방법</h3>
     <div class="tbl"><table>
-      <thead><tr><th>방법</th><th>NCPMS /89</th><th>팀 검수 test /288</th><th>판단</th></tr></thead>
+      <thead><tr><th>방법</th><th>NCPMS /89</th><th>팀 검수 test /280</th><th>판단</th></tr></thead>
       <tbody>
-        <tr class="hl"><td><b>ConvNeXt-Tiny + D (채택)</b></td><td class="num"><b>72</b></td><td class="num">225</td><td>외부 전문가 사진에서 가장 좋음</td></tr>
-        <tr><td>지식 스무딩만</td><td class="num">70</td><td class="num">228</td><td>차선. D와 유의한 차이 없음</td></tr>
+        <tr class="hl"><td><b>ConvNeXt-Tiny + D (채택)</b></td><td class="num"><b>72</b></td><td class="num">225</td><td>seed 3번 평균 NCPMS 68.3, test 228.3. 아래 둘과 차이가 seed 흔들림 안이라 그대로 채택</td></tr>
+        <tr><td>지식 스무딩만</td><td class="num">70</td><td class="num">228</td><td>seed 3번 평균 68.7 / 228.3. D와 사실상 같음</td></tr>
         <tr><td>증상 증강만</td><td class="num">65</td><td class="num">227</td><td>구멍·상처가 부패병으로 쏠림</td></tr>
-        <tr><td>CLIP ViT-B/16 미세조정 (병 증상 문장으로 초기화)</td><td class="num">68</td><td class="num"><b>237</b></td><td>팀 검수 test에서는 가장 좋지만 모델이 4배 크고 NCPMS에서 낮음. 후보로 유지</td></tr>
+        <tr><td>CLIP ViT-B/16 미세조정 (병 증상 문장으로 초기화)</td><td class="num">68</td><td class="num"><b>237</b></td><td>seed 3번 평균 66.3 / 232.0 (seed에 따라 224~237). D보다 낫다고 할 수 없고 모델이 4배 큼</td></tr>
         <tr><td>ConvNeXt-Small (모델 크기 키움)</td><td class="num">64</td><td class="num">223</td><td>데이터 3천 장 규모에서는 이득 없음</td></tr>
         <tr><td>focal loss (실험 4 기준)</td><td class="num">44 / 91</td><td>—</td><td>가중치 CE(48)보다 나쁨</td></tr>
         <tr><td>입력 224px (실험 4 기준)</td><td class="num">44 / 91</td><td>—</td><td>288px(45)와 차이 없음. 288 유지</td></tr>
@@ -271,7 +271,7 @@ pest = pest_model.predict(image_bytes, boxes=None)  # boxes: 원본 픽셀 [(x1,
     <h2>한계</h2>
     <div class="callout">
       <p><b>미홍 정상 과실 오경보율을 아직 재지 못했습니다.</b> 팀 검수 test의 정상 과실(다른 품종)은 125개 중 114개를 정상으로 유지했지만, 미홍 사진은 아직 없습니다.</p>
-      <p><b>탄저병은 출처에 따라 성능 차이가 큽니다</b>(NCPMS 15/19, 팀 검수 test 6/15). 학습 크롭이 52개(검증 9개)뿐입니다. 놓친 것은 대부분 부패병으로 판정해 대응 등급은 같습니다.</p>
+      <p><b>탄저병은 평가 표본이 작습니다</b>(NCPMS 15/19, 팀 검수 test 6/7). 학습 크롭이 52개(검증 9개)뿐입니다. 부패병과 헷갈려도 대응 등급(urgent)은 같습니다.</p>
       <p><b>세부 병명은 질문으로 나눕니다.</b> 세균구멍병과 검은별무늬병, 충해와 열과·상처는 과실 사진만으로 확실히 가르기 어렵습니다.</p>
       <p><b>학습하지 않은 병해충</b>(바이로이드, 매미충 알 등)도 5클래스 중 하나로 판정될 수 있습니다. 결과는 항상 "의심"으로 표시하고 농업기술센터 문의를 함께 안내합니다.</p>
       <p><b>과실이 아닌 사진</b>: 잎·땅처럼 무늬가 있는 사진을 탐지기가 과실로 잡으면 판정됩니다. 앱 앞단의 복숭아 판별과 함께 쓰는 것을 전제로 합니다.</p>

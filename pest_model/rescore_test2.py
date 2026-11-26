@@ -3,7 +3,8 @@
 - ~/peachscope-data/test2_others/review/<폴더>/<idx>_<크롭 stem>__D-*.jpg 의 폴더가 새 정답이다.
 - _애매·_제외는 평가에서 뺀다(사용자 결정). others가 아닌 박스(정상·잿빛무늬병·반점·탄저병)는 그대로 둔다.
 - 재학습 없이 각 모델 결과 폴더의 preds.csv(split=test2)를 쓴다.
-출력: results/test2_others/labels_v2.csv, results/test2_others/rescore.json
+- --v3: test2 탄저병 15개 판정(results/test2_others/anth_v3.csv)도 반영한다. v3가 anthracnose가 아닌 것(_애매·_제외)은 뺀다.
+출력: results/test2_others/labels_v2.csv(v3면 labels_v3.csv), --out JSON
 """
 import argparse
 import collections
@@ -35,6 +36,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("runs", nargs="+", help="results/ 아래 결과 폴더 이름 (첫 번째가 McNemar 기준)")
     ap.add_argument("--out", default="results/test2_others/rescore.json")
+    ap.add_argument("--v3", action="store_true", help="탄저병 판정(anth_v3.csv) 반영")
     a = ap.parse_args()
     nl = new_labels()
     base = [r for r in csv.DictReader(open("results/exp7/labels.csv")) if r["split"] == "test2"]
@@ -43,13 +45,19 @@ def main():
         lab = nl.get(r["file"], "missing") if r["orig"] == "others" else r["cls"]
         assert lab != "missing", r["file"]
         labels[r["file"]] = lab
+    ver = "v2"
+    if a.v3:
+        ver = "v3"
+        for r in csv.DictReader(open("results/test2_others/anth_v3.csv")):
+            assert labels[r["file"]] == "anthracnose", r["file"]
+            labels[r["file"]] = r["v3"] if r["v3"] in CLS else None
     Path("results/test2_others").mkdir(exist_ok=True)
-    with open("results/test2_others/labels_v2.csv", "w", newline="") as f:
-        w = csv.writer(f); w.writerow(["file", "orig", "cls_v1", "cls_v2"])
+    with open(f"results/test2_others/labels_{ver}.csv", "w", newline="") as f:
+        w = csv.writer(f); w.writerow(["file", "orig", "cls_v1", "cls_" + ver])
         for r in base:
             w.writerow([r["file"], r["orig"], r["cls"], labels[r["file"]] or "excluded"])
     keep = {k: v for k, v in labels.items() if v}
-    print("test2 v2:", len(keep), "개 (제외", len(labels) - len(keep), ")", dict(collections.Counter(keep.values())))
+    print(f"test2 {ver}:", len(keep), "개 (제외", len(labels) - len(keep), ")", dict(collections.Counter(keep.values())))
     res, ok = {}, {}
     for run in a.runs:
         P = {r["file"]: r["pred"] for r in csv.DictReader(open(f"results/{run}/preds.csv")) if r["split"] == "test2"}

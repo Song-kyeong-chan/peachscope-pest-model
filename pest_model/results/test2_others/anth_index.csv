@@ -1,0 +1,16 @@
+idx,file,orig,preds,n_anth
+0,test2/t2_001151_jpg.rf.d0226620245a3322e88365c6ad_0.jpg,anthracnose,A S A A S S A A A,6
+1,test2/t2_001505_jpg.rf.1602c7682edc86828fde4a2e78_0.jpg,anthracnose,A A A A A A A A A,9
+2,test2/t2_001505_jpg.rf.1602c7682edc86828fde4a2e78_1.jpg,anthracnose,S H S S H S H H H,0
+3,test2/t2_001505_jpg.rf.1602c7682edc86828fde4a2e78_2.jpg,anthracnose,H H H H H H H H H,0
+4,test2/t2_bad-142-_jpg.rf.d87a05b98be5b74b8ec1b851_0.jpg,anthracnose,R R R R R R R R R,0
+5,test2/t2_bad-142-_jpg.rf.d87a05b98be5b74b8ec1b851_1.jpg,anthracnose,R R R R R R R R R,0
+6,test2/t2_bad-142-_jpg.rf.d87a05b98be5b74b8ec1b851_2.jpg,anthracnose,R R R R R R R R R,0
+7,test2/t2_bad-142-_jpg.rf.d87a05b98be5b74b8ec1b851_3.jpg,anthracnose,R R R R R R R R R,0
+8,test2/t2_bad-142-_jpg.rf.d87a05b98be5b74b8ec1b851_4.jpg,anthracnose,R R R R R R R R R,0
+9,test2/t2_bad-185-_jpg.rf.3b67019730e88c76d5c37e7d_0.jpg,anthracnose,R R R R R R R R R,0
+10,test2/t2_bad-186-_jpg.rf.57f2e94db3665e089e0696d3_0.jpg,others,A A A A A A A A A,9
+11,test2/t2_bad-24-_jpg.rf.c612b68ed9019842fdf4f7107_0.jpg,others,A A A A A A A R A,8
+12,test2/t2_bad-28-_jpg.rf.162ac256b6d9e35b88d5bc133_0.jpg,anthracnose,A A A A A A A A A,9
+13,test2/t2_bad-28-_jpg.rf.162ac256b6d9e35b88d5bc133_1.jpg,anthracnose,A A A A A A A D A,8
+14,test2/t2_bok-05_jpg.rf.83b1a0449b4b851c3d7db79ef3_0.jpg,anthracnose,R R R R R R R R S,0
